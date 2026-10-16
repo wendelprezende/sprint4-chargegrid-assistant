@@ -1,0 +1,19 @@
+# Segredos — NUNCA versionar (penalidade na entrega)
+.env
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Banco vetorial gerado localmente (reconstruído por src/rag/vector_store.py)
+chroma_db/
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

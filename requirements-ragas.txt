@@ -1,0 +1,5 @@
+# OPCIONAL — só instale se formos usar o RAGAS (senão usamos o fallback manual
+# documentado em evals/, aceito pelo guia da Sprint 4).
+# Instalar depois de: pip install -r requirements.txt
+ragas>=0.2.0
+datasets>=2.0.0

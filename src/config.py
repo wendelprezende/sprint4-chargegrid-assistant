@@ -1,0 +1,57 @@
+# -*- coding: utf-8 -*-
+"""
+Configuração central do projeto (Sprint 4).
+
+Todo caminho, nome de modelo e parâmetro "mágico" vive aqui, para que os
+módulos de `src/rag/`, a interface (`app/`) e os evals (`evals/`) leiam
+a mesma fonte de verdade — e para que cada mudança de parâmetro fique
+registrada em um único lugar (importante para o relatório de modelos).
+
+A API key NUNCA é escrita aqui: ela vem da variável de ambiente
+`OLLAMA_API_KEY` (carregada do arquivo `.env`, que está no .gitignore).
+"""
+
+from __future__ import annotations
+
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+# Raiz do projeto = pasta que contém `src/`
+RAIZ = Path(__file__).resolve().parent.parent
+load_dotenv(RAIZ / ".env")
+
+# --- Pastas ---
+PASTA_KB = RAIZ / "data" / "knowledge_base"
+PASTA_CHROMA = RAIZ / "chroma_db"
+PASTA_PROMPTS = RAIZ / "prompts"
+PASTA_EVALS = RAIZ / "evals"
+PASTA_DOCS = RAIZ / "docs"
+
+# --- Ollama Cloud ---
+OLLAMA_BASE_URL = "https://ollama.com"
+MODELO_EMBEDDING = "nomic-embed-text"  # único modelo de embedding aprovado
+MODELO_CHAT_PRINCIPAL = "gpt-oss:120b"
+MODELO_CHAT_COMPARACAO = "qwen3:8b"
+
+# --- Parâmetros do RAG (valores INICIAIS; cada mudança vira uma iteração
+#     registrada em evals/ e no relatório de modelos) ---
+COLECAO_CHROMA = "chargegrid_kb"
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 120  # ~15% do chunk_size
+TOP_K = 4
+TEMPERATURE = 0.0  # recomendado pelo guia da Sprint 4 (respostas fundamentadas)
+TOP_P = 0.9
+NUM_PREDICT = 400  # equivalente ao max_tokens
+
+
+def obter_api_key() -> str:
+    """Lê a OLLAMA_API_KEY do ambiente; falha com mensagem clara se ausente."""
+    chave = os.environ.get("OLLAMA_API_KEY", "").strip()
+    if not chave or chave == "coloque_sua_api_key_aqui":
+        raise RuntimeError(
+            "OLLAMA_API_KEY não configurada. Copie .env.example para .env e "
+            "cole sua chave (https://ollama.com/settings/keys)."
+        )
+    return chave
