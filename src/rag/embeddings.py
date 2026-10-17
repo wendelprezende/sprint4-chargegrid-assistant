@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Embeddings (etapa 3): `nomic-embed-text` via Ollama Cloud — o único modelo de
-embedding aprovado pelo guia.
+Embeddings (etapa 3): `nomic-embed-text` — o único modelo de embedding aprovado
+pelo guia. Por padrão roda em um servidor Ollama LOCAL (o Ollama Cloud da nossa
+conta não oferece modelos de embedding; veja `config.OLLAMA_EMBED_BASE_URL`).
 
 `EmbeddingsNomic` envolve o `OllamaEmbeddings` mantendo a interface padrão
 (`embed_documents` / `embed_query`) e permite, opcionalmente, aplicar os
@@ -38,11 +39,20 @@ class EmbeddingsNomic(Embeddings):
 
 
 def obter_embeddings(usar_prefixo: bool = config.USAR_PREFIXO_NOMIC) -> EmbeddingsNomic:
-    """Cria o embedder real (exige OLLAMA_API_KEY no ambiente/.env)."""
-    chave = config.obter_api_key()
+    """Cria o embedder e já testa a conexão, para falhar cedo e com instrução clara."""
+    base_url = config.OLLAMA_EMBED_BASE_URL
     base = OllamaEmbeddings(
         model=config.MODELO_EMBEDDING,
-        base_url=config.OLLAMA_BASE_URL,
-        client_kwargs={"headers": {"Authorization": f"Bearer {chave}"}},
+        base_url=base_url,
+        client_kwargs={"headers": config.cabecalhos_ollama(base_url)},
     )
+    try:
+        base.embed_query("ping")
+    except Exception as erro:  # noqa: BLE001
+        raise RuntimeError(
+            f"Não consegui gerar embeddings em {base_url} com '{config.MODELO_EMBEDDING}' "
+            f"({type(erro).__name__}: {erro}).\n"
+            "Se for o servidor local: 1) abra o aplicativo Ollama (ou rode `ollama serve`); "
+            f"2) rode `ollama pull {config.MODELO_EMBEDDING}`; 3) confira com `ollama list`."
+        ) from erro
     return EmbeddingsNomic(base, usar_prefixo=usar_prefixo)

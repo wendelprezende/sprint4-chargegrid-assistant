@@ -1,0 +1,406 @@
+{
+  "itens": [
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "Python 3.14.4 (mínimo 3.10)",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "AVISO",
+      "descricao": "ambiente virtual ativo",
+      "detalhe": "ative o .venv antes de rodar"
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "langchain",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "langchain-ollama",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "langchain-chroma",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "chromadb",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "pymupdf",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "gradio",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "tiktoken",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "pydantic",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "python-dotenv",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "reportlab",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": ".env existe na raiz do projeto",
+      "detalhe": ""
+    },
+    {
+      "secao": "1) Ambiente",
+      "status": "OK",
+      "descricao": "OLLAMA_API_KEY definida (valor oculto)",
+      "detalhe": ""
+    },
+    {
+      "secao": "2) Estrutura do repositório (T1 + T2 + T3)",
+      "status": "OK",
+      "descricao": "27/27 arquivos esperados presentes",
+      "detalhe": ""
+    },
+    {
+      "secao": "2) Estrutura do repositório (T1 + T2 + T3)",
+      "status": "OK",
+      "descricao": "manual do HCA G2 presente em data/knowledge_base/",
+      "detalhe": ""
+    },
+    {
+      "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
+      "status": "OK",
+      "descricao": ".gitignore bloqueia .env",
+      "detalhe": ""
+    },
+    {
+      "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
+      "status": "OK",
+      "descricao": ".gitignore bloqueia chroma_db/",
+      "detalhe": ""
+    },
+    {
+      "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
+      "status": "OK",
+      "descricao": ".gitignore bloqueia GW_HCAG2_UserManualPT.pdf",
+      "detalhe": ""
+    },
+    {
+      "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
+      "status": "OK",
+      "descricao": "nenhum arquivo proibido está versionado (.env, chroma_db/, manual)",
+      "detalhe": ""
+    },
+    {
+      "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
+      "status": "OK",
+      "descricao": "nenhum arquivo versionado contém uma chave no formato OLLAMA_API_KEY=<valor>",
+      "detalhe": ""
+    },
+    {
+      "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
+      "status": "OK",
+      "descricao": "sua chave NÃO aparece em nenhum commit do histórico",
+      "detalhe": ""
+    },
+    {
+      "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
+      "status": "AVISO",
+      "descricao": "árvore de trabalho limpa (branch atual: main)",
+      "detalhe": "12 arquivo(s) com alterações não commitadas"
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "7 documentos no catálogo (esperado 7)",
+      "detalhe": ""
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "GW_HCAG2_UserManualPT.pdf (70 págs)",
+      "detalhe": ""
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "GW_HCAG2_DatasheetPT.pdf (2 págs)",
+      "detalhe": ""
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "CG-01_Guia_do_Motorista.pdf (2 págs)",
+      "detalhe": "aviso de documento fictício em todas as páginas"
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "CG-02_Tarifas_e_Pagamentos.pdf (2 págs)",
+      "detalhe": "aviso de documento fictício em todas as páginas"
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "CG-03_Solucao_de_Problemas_e_Suporte.pdf (2 págs)",
+      "detalhe": "aviso de documento fictício em todas as páginas"
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "CG-04_FAQ_Operacional.pdf (2 págs)",
+      "detalhe": "aviso de documento fictício em todas as páginas"
+    },
+    {
+      "secao": "4) Base de conhecimento",
+      "status": "OK",
+      "descricao": "CG-05_Termos_de_Uso_e_Limites_do_Assistente.pdf (1 págs)",
+      "detalhe": "aviso de documento fictício em todas as páginas"
+    },
+    {
+      "secao": "5) Pipeline RAG (offline, embedding de mentira — valida o encanamento)",
+      "status": "OK",
+      "descricao": "evals.teste_pipeline_rag --offline",
+      "detalhe": "Resultado: TODAS as checagens estruturais passaram"
+    },
+    {
+      "secao": "6) Chain da Sprint 3 (guardrails + memória, modelo de mentira)",
+      "status": "OK",
+      "descricao": "demonstração offline da chain executa sem erro",
+      "detalhe": ""
+    },
+    {
+      "secao": "6) Chain da Sprint 3 (guardrails + memória, modelo de mentira)",
+      "status": "OK",
+      "descricao": "guardrail recusa a tentativa de jailbreak",
+      "detalhe": ""
+    },
+    {
+      "secao": "6) Chain da Sprint 3 (guardrails + memória, modelo de mentira)",
+      "status": "OK",
+      "descricao": "guardrail de escopo recusa pergunta financeira",
+      "detalhe": ""
+    },
+    {
+      "secao": "6) Chain da Sprint 3 (guardrails + memória, modelo de mentira)",
+      "status": "OK",
+      "descricao": "guardrail de escopo recusa pergunta de segurança elétrica",
+      "detalhe": ""
+    },
+    {
+      "secao": "6) Chain da Sprint 3 (guardrails + memória, modelo de mentira)",
+      "status": "AVISO",
+      "descricao": "guardrail de escopo NÃO bloqueia pergunta legítima de tarifação",
+      "detalhe": "bug conhecido da Sprint 3 (hp-03); será corrigido na T4"
+    },
+    {
+      "secao": "6) Chain da Sprint 3 (guardrails + memória, modelo de mentira)",
+      "status": "OK",
+      "descricao": "guardrail de escopo aceita pergunta legítima de início de recarga",
+      "detalhe": ""
+    },
+    {
+      "secao": "7) Ollama real (embedding em http://localhost:11434)",
+      "status": "OK",
+      "descricao": "embedding gera vetor de 768 dimensões (esperado 768)",
+      "detalhe": "2.07s"
+    },
+    {
+      "secao": "7) Ollama real (embedding em http://localhost:11434)",
+      "status": "OK",
+      "descricao": "sanidade semântica: a frase sobre PIX é mais próxima da pergunta sobre PIX do que a sobre tela preta",
+      "detalhe": "similaridade 0.701 vs 0.525"
+    },
+    {
+      "secao": "7) Ollama real (embedding em http://localhost:11434)",
+      "status": "FALHA",
+      "descricao": "chat gpt-oss:120b responde",
+      "detalhe": "0.51s -> ''"
+    },
+    {
+      "secao": "7) Ollama real (embedding em http://localhost:11434)",
+      "status": "OK",
+      "descricao": "chat gemma4:31b-cloud responde",
+      "detalhe": "0.46s -> 'OK'"
+    },
+    {
+      "secao": "8) Pipeline RAG REAL (nomic-embed-text)",
+      "status": "OK",
+      "descricao": "143 chunks vetorizados e gravados (banco temporário)",
+      "detalhe": "25.42 s"
+    },
+    {
+      "secao": "8) Pipeline RAG REAL (nomic-embed-text)",
+      "status": "AVISO",
+      "descricao": "recuperação: 5/9 consultas com a fonte esperada no top-4",
+      "detalhe": "critério de trabalho: >=7 OK, 5-6 aviso, <5 falha"
+    },
+    {
+      "secao": "8) Pipeline RAG REAL (nomic-embed-text)",
+      "status": "OK",
+      "descricao": "pergunta fora do escopo fica mais longe do que TODAS as perguntas do domínio (um limiar único consegue separá-las)",
+      "detalhe": "maior d_min dentro do escopo = 0.353 | d_min fora do escopo = 0.416"
+    },
+    {
+      "secao": "8) Pipeline RAG REAL (nomic-embed-text)",
+      "status": "OK",
+      "descricao": "filtro de público: nenhuma resposta de instalação chega ao motorista",
+      "detalhe": ""
+    },
+    {
+      "secao": "8) Pipeline RAG REAL (nomic-embed-text)",
+      "status": "OK",
+      "descricao": "toda recuperação traz citação (documento · seção · página)",
+      "detalhe": ""
+    }
+  ],
+  "pipeline_real": {
+    "simulado": false,
+    "chunks": 143,
+    "acertos": 5,
+    "esperados": 9,
+    "consultas": [
+      {
+        "consulta": "Como faço para pagar com PIX?",
+        "hit": true,
+        "distancia_min": 0.3247,
+        "top": [
+          "CG-02:p2",
+          "CG-02:p1",
+          "CG-04:p1",
+          "GW-HCAG2-MANUAL:p21"
+        ]
+      },
+      {
+        "consulta": "Por que o preço está mais caro agora do que ontem de manhã?",
+        "hit": true,
+        "distancia_min": 0.353,
+        "top": [
+          "CG-04:p1",
+          "GW-HCAG2-MANUAL:p16",
+          "CG-04:p1",
+          "CG-01:p1"
+        ]
+      },
+      {
+        "consulta": "O cabo não está encaixando no meu carro",
+        "hit": false,
+        "distancia_min": 0.3304,
+        "top": [
+          "GW-HCAG2-MANUAL:p65",
+          "GW-HCAG2-MANUAL:p7",
+          "GW-HCAG2-MANUAL:p15",
+          "GW-HCAG2-MANUAL:p40"
+        ]
+      },
+      {
+        "consulta": "Como encerro a sessão e pego o comprovante?",
+        "hit": true,
+        "distancia_min": 0.2951,
+        "top": [
+          "CG-02:p1",
+          "CG-04:p1",
+          "GW-HCAG2-MANUAL:p65",
+          "CG-02:p1"
+        ]
+      },
+      {
+        "consulta": "O que significa a luz azul do carregador?",
+        "hit": true,
+        "distancia_min": 0.3076,
+        "top": [
+          "GW-HCAG2-MANUAL:p21",
+          "GW-HCAG2-MANUAL:p13",
+          "GW-HCAG2-MANUAL:p7",
+          "GW-HCAG2-MANUAL:p14"
+        ]
+      },
+      {
+        "consulta": "Qual é a potência do carregador de 22 kW?",
+        "hit": true,
+        "distancia_min": 0.2357,
+        "top": [
+          "GW-HCAG2-MANUAL:p14",
+          "GW-HCAG2-MANUAL:p15",
+          "GW-HCAG2-DATASHEET:p1",
+          "GW-HCAG2-MANUAL:p66"
+        ]
+      },
+      {
+        "consulta": "A tela do totem está preta e não responde",
+        "hit": false,
+        "distancia_min": 0.2811,
+        "top": [
+          "CG-01:p1",
+          "CG-02:p1",
+          "CG-01:p1",
+          "CG-04:p1"
+        ]
+      },
+      {
+        "consulta": "Posso processar a empresa se meu carro for danificado?",
+        "hit": false,
+        "distancia_min": 0.3232,
+        "top": [
+          "GW-HCAG2-MANUAL:p8",
+          "GW-HCAG2-MANUAL:p16",
+          "CG-02:p1",
+          "GW-HCAG2-MANUAL:p15"
+        ]
+      },
+      {
+        "consulta": "Posso mexer na fiação da minha casa para instalar um carregador?",
+        "hit": false,
+        "distancia_min": 0.2615,
+        "top": [
+          "GW-HCAG2-MANUAL:p7",
+          "GW-HCAG2-MANUAL:p15",
+          "GW-HCAG2-MANUAL:p40",
+          "GW-HCAG2-MANUAL:p7"
+        ]
+      },
+      {
+        "consulta": "Qual é a capital da França?",
+        "hit": null,
+        "distancia_min": 0.4158,
+        "top": [
+          "CG-02:p1",
+          "GW-HCAG2-MANUAL:p21",
+          "CG-02:p2",
+          "GW-HCAG2-MANUAL:p65"
+        ]
+      }
+    ],
+    "maior_distancia_dentro_escopo": 0.353,
+    "menor_distancia_fora_escopo": 0.4158
+  }
+}
