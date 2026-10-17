@@ -65,7 +65,24 @@ python -m src.utils.verificar_ollama    # diagnóstico do ambiente
 
 Cada documento declara `tipo`, `publico` (motorista/instalador/geral) e origem; o conteúdo de instalação
 do manual é marcado como `instalador` para **não** ser usado em respostas ao motorista.
-## Pipeline RAG *(a preencher na T3)*
+## Pipeline RAG (T3)
+
+`PyMuPDFLoader → RecursiveCharacterTextSplitter → nomic-embed-text → ChromaDB (persistente) → retriever`
+
+| Etapa | Módulo | Decisão |
+|---|---|---|
+| Carga | `src/rag/loader.py` | Lê `catalogo.json`; metadados limpos por página (`fonte_id`, `tipo`, `publico`, `pagina`...); páginas `excluir` (capa/índice) não entram |
+| Chunking | `src/rag/chunking.py` | `chunk_size=800`, `overlap=120` (~15%), separadores `["\n\n","\n",". "," ",""]`; corte página a página para citar a página exata; rótulo de seção por cabeçalho numerado |
+| Embedding | `src/rag/embeddings.py` | `nomic-embed-text` (Ollama Cloud); prefixo `search_document/search_query` opcional (flag, medido na T5) |
+| Banco | `src/rag/vector_store.py` | Chroma persistente em `chroma_db/`, distância de cosseno, ids determinísticos |
+| Busca | `src/rag/retriever.py` | Top-k com **filtro de metadados**: por padrão só `motorista` e `geral` (conteúdo de instalação nunca chega ao motorista); citação pronta |
+
+```bash
+python -m src.rag.indexar                          # cria/recria o índice
+python -m src.rag.retriever "Como pago com PIX?"   # consulta rápida (mostra distância e citação)
+python -m evals.teste_pipeline_rag --offline       # teste do encanamento, sem rede
+python -m evals.teste_pipeline_rag                 # teste real (usa o Ollama Cloud)
+```
 ## Grounding, citação e segurança *(a preencher na T4)*
 ## Avaliação *(a preencher na T5)*
 ## Relatórios *(a preencher na T6 e T9)*
