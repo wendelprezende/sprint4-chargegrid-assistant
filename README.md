@@ -55,7 +55,16 @@ python -m src.utils.verificar_ollama    # diagnóstico do ambiente
 
 *(instruções de indexação, interface e avaliação: a preencher)*
 
-## Base de conhecimento *(a preencher na T2)*
+## Base de conhecimento (T2)
+
+7 documentos em duas camadas, catalogados em `data/knowledge_base/catalogo.json`
+(detalhes em `data/knowledge_base/README.md`):
+
+- **`real_goodwe`** — manual (70 p.) e datasheet do carregador GoodWe HCA G2: hardware, LED, partida, falhas.
+- **`ficticio_chargegrid`** — 5 documentos fictícios (CG-01 a CG-05) com a operação do totem: pagamento, tarifas, suporte e limites do assistente. Rotulados como fictícios em todas as páginas.
+
+Cada documento declara `tipo`, `publico` (motorista/instalador/geral) e origem; o conteúdo de instalação
+do manual é marcado como `instalador` para **não** ser usado em respostas ao motorista.
 ## Pipeline RAG *(a preencher na T3)*
 ## Grounding, citação e segurança *(a preencher na T4)*
 ## Avaliação *(a preencher na T5)*
