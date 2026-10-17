@@ -17,3 +17,8 @@ chroma_db/
 Thumbs.db
 .vscode/
 .idea/
+
+# --- DECISÃO PENDENTE (T2): o manual do HCA G2 veda reprodução em plataforma pública
+# sem autorização escrita da GoodWe. Por padrão NÃO vai para o GitHub público.
+# Se a decisão mudar, apague a linha abaixo.
+data/knowledge_base/GW_HCAG2_UserManualPT.pdf

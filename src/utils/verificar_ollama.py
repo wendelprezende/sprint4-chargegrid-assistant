@@ -4,8 +4,8 @@ Diagnóstico do ambiente (T1 da Sprint 4).
 
 Responde, com testes REAIS, às perguntas que ainda estavam em aberto:
   1. A OLLAMA_API_KEY está configurada e é aceita pelo Ollama Cloud?
-  2. O `nomic-embed-text` está acessível (embeddings)?
-  3. `gpt-oss:120b` e `qwen3:8b` respondem (chat)?
+  2. O `nomic-embed-text` responde (embeddings, em config.OLLAMA_EMBED_BASE_URL)?
+  3. `gpt-oss:120b` e o modelo de comparação respondem (chat, Ollama Cloud)?
   4. As bibliotecas do RAG estão instaladas (chromadb, pymupdf, gradio)?
   5. O RAGAS está instalado? (opcional — senão usamos o fallback manual)
 
@@ -66,21 +66,24 @@ def checar_chave() -> str | None:
         return None
 
 
-def checar_embedding(chave: str) -> None:
-    print(f"\n3) Embedding: {config.MODELO_EMBEDDING}")
+def checar_embedding() -> None:
+    print(f"\n3) Embedding: {config.MODELO_EMBEDDING} em {config.OLLAMA_EMBED_BASE_URL}")
     from langchain_ollama import OllamaEmbeddings
 
     try:
         emb = OllamaEmbeddings(
             model=config.MODELO_EMBEDDING,
-            base_url=config.OLLAMA_BASE_URL,
-            client_kwargs={"headers": {"Authorization": f"Bearer {chave}"}},
+            base_url=config.OLLAMA_EMBED_BASE_URL,
+            client_kwargs={"headers": config.cabecalhos_ollama(config.OLLAMA_EMBED_BASE_URL)},
         )
         inicio = time.perf_counter()
         vetor = emb.embed_query("Como iniciar uma recarga no eletroposto?")
         _ok(f"vetor com {len(vetor)} dimensões em {time.perf_counter() - inicio:.2f}s")
     except Exception as erro:  # noqa: BLE001
         _falha(f"{type(erro).__name__}: {erro}")
+        if "ollama.com" not in config.OLLAMA_EMBED_BASE_URL:
+            print("          -> Servidor local: abra o app Ollama (ou `ollama serve`) e rode "
+                  f"`ollama pull {config.MODELO_EMBEDDING}`; confira com `ollama list`.")
 
 
 def checar_chat(chave: str, modelo: str) -> None:
@@ -106,8 +109,8 @@ def main() -> None:
     print("=== Diagnóstico do ambiente — ChargeGrid Assistant (Sprint 4) ===")
     checar_bibliotecas()
     chave = checar_chave()
+    checar_embedding()  # independe da chave do Ollama Cloud quando o servidor é local
     if chave:
-        checar_embedding(chave)
         checar_chat(chave, config.MODELO_CHAT_PRINCIPAL)
         checar_chat(chave, config.MODELO_CHAT_COMPARACAO)
     print("\nCopie TODA esta saída e cole no chat para eu validar a T1.")

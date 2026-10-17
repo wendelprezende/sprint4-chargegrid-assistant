@@ -1,0 +1,242 @@
+{
+  "descricao": "Catálogo da base de conhecimento do ChargeGrid Assistant. Cada documento declara tipo, público e origem. O loader (src/rag/loader.py, T3) lê este arquivo e injeta os campos como metadados de cada chunk — é daí que vêm a citação de fonte e o filtro por público.",
+  "legenda": {
+    "tipo": "real_goodwe = material oficial da GoodWe | ficticio_chargegrid = documento fictício acadêmico que materializa a operação do totem ChargeGrid",
+    "publico": "motorista = pode embasar respostas ao motorista | instalador = conteúdo para instalação/comissionamento (NÃO responder ao motorista) | geral = vale para ambos | excluir = NÃO indexar (capa, aviso de direitos, índice com pontilhados)",
+    "paginas": "numeração de páginas do PDF, base 1 (a mesma que a citação deve mostrar)"
+  },
+  "documentos": [
+    {
+      "arquivo": "GW_HCAG2_UserManualPT.pdf",
+      "id": "GW-HCAG2-MANUAL",
+      "titulo": "Manual do usuário — Carregador CA Série HCA (7 a 22 kW) G2",
+      "tipo": "real_goodwe",
+      "versao": "V1.5-2025-11-11",
+      "idioma": "pt-BR",
+      "origem": "https://en.goodwe.com/",
+      "direitos": "Copyright GoodWe Technologies Co., Ltd. 2025. O próprio manual veda reprodução em plataforma pública sem autorização prévia por escrito — ver decisão sobre publicar o PDF no GitHub (README da base).",
+      "total_paginas": 70,
+      "secoes": [
+        {
+          "nome": "Capa, declaração de direitos autorais e índice",
+          "paginas": [
+            1,
+            4
+          ],
+          "publico": "excluir"
+        },
+        {
+          "nome": "Sobre esse manual",
+          "paginas": [
+            5,
+            6
+          ],
+          "publico": "geral"
+        },
+        {
+          "nome": "Precauções de segurança",
+          "paginas": [
+            7,
+            9
+          ],
+          "publico": "geral"
+        },
+        {
+          "nome": "Apresentação do produto (modos, status, funcionalidades, indicador LED)",
+          "paginas": [
+            10,
+            21
+          ],
+          "publico": "motorista"
+        },
+        {
+          "nome": "Verificação, armazenamento, instalação e conexão elétrica",
+          "paginas": [
+            22,
+            38
+          ],
+          "publico": "instalador"
+        },
+        {
+          "nome": "Comissionamento do equipamento (verificação e ligar)",
+          "paginas": [
+            39,
+            39
+          ],
+          "publico": "instalador"
+        },
+        {
+          "nome": "Carregamento de veículo elétrico (app, agendamento, início automático, RFID)",
+          "paginas": [
+            40,
+            42
+          ],
+          "publico": "motorista"
+        },
+        {
+          "nome": "Comissionamento do sistema (configuração por aplicativo)",
+          "paginas": [
+            43,
+            63
+          ],
+          "publico": "instalador"
+        },
+        {
+          "nome": "Manutenção (desligar, desmontar, descartar, rotina)",
+          "paginas": [
+            64,
+            64
+          ],
+          "publico": "instalador"
+        },
+        {
+          "nome": "Solução de problemas (falhas indicadas em vermelho)",
+          "paginas": [
+            65,
+            66
+          ],
+          "publico": "motorista"
+        },
+        {
+          "nome": "Parâmetros técnicos",
+          "paginas": [
+            67,
+            70
+          ],
+          "publico": "geral"
+        }
+      ],
+      "observacoes": "Aparente divergência interna a verificar: o item 7.3.4 (PDF p.42) diz para conectar o plugue ao veículo e DEPOIS encostar o cartão RFID, enquanto a tabela do item 3.6.3 (PDF p.21) traz, para luz vermelha acesa por 2 s, a orientação de encostar o cartão ANTES de conectar o plugue. Útil como caso de teste de grounding: o assistente deve citar a fonte e não afirmar além do que o texto diz."
+    },
+    {
+      "arquivo": "GW_HCAG2_DatasheetPT.pdf",
+      "id": "GW-HCAG2-DATASHEET",
+      "titulo": "Datasheet — Linha HCA G2 (GW7K-HCA-20 / GW11K-HCA-20 / GW22K-HCA-20)",
+      "tipo": "real_goodwe",
+      "versao": "GoodWe-Single page-20241121-PT-V2.1",
+      "idioma": "pt-BR",
+      "origem": "https://en.goodwe.com/",
+      "direitos": "GoodWe. Folha de dados comercial; as informações podem ser alteradas sem aviso prévio.",
+      "total_paginas": 2,
+      "secoes": [
+        {
+          "nome": "Apresentação e destaques do produto",
+          "paginas": [
+            1,
+            1
+          ],
+          "publico": "geral"
+        },
+        {
+          "nome": "Dados técnicos",
+          "paginas": [
+            2,
+            2
+          ],
+          "publico": "geral"
+        }
+      ],
+      "observacoes": "Fonte para potência (7/11/22 kW), IP66 (plugue IP55), conector IEC Tipo 2, cabo de 6 m, métodos de partida (APP, RFID, início automático) e desligamento de emergência."
+    },
+    {
+      "arquivo": "CG-01_Guia_do_Motorista.pdf",
+      "id": "CG-01",
+      "titulo": "Guia do Motorista — Rede ChargeGrid",
+      "tipo": "ficticio_chargegrid",
+      "versao": "1.0",
+      "idioma": "pt-BR",
+      "origem": "Elaborado pela Equipe 03 (FIAP EV Challenge 2026) — documento fictício",
+      "direitos": "Autoria da equipe.",
+      "secoes": [
+        {
+          "nome": "Documento inteiro",
+          "paginas": [
+            1,
+            99
+          ],
+          "publico": "motorista"
+        }
+      ]
+    },
+    {
+      "arquivo": "CG-02_Tarifas_e_Pagamentos.pdf",
+      "id": "CG-02",
+      "titulo": "Tarifas e Formas de Pagamento — Rede ChargeGrid",
+      "tipo": "ficticio_chargegrid",
+      "versao": "1.0",
+      "idioma": "pt-BR",
+      "origem": "Elaborado pela Equipe 03 (FIAP EV Challenge 2026) — documento fictício; valores são placeholders acadêmicos",
+      "direitos": "Autoria da equipe.",
+      "secoes": [
+        {
+          "nome": "Documento inteiro",
+          "paginas": [
+            1,
+            99
+          ],
+          "publico": "motorista"
+        }
+      ]
+    },
+    {
+      "arquivo": "CG-03_Solucao_de_Problemas_e_Suporte.pdf",
+      "id": "CG-03",
+      "titulo": "Solução de Problemas e Suporte Técnico — Rede ChargeGrid",
+      "tipo": "ficticio_chargegrid",
+      "versao": "1.0",
+      "idioma": "pt-BR",
+      "origem": "Elaborado pela Equipe 03 (FIAP EV Challenge 2026) — documento fictício",
+      "direitos": "Autoria da equipe.",
+      "secoes": [
+        {
+          "nome": "Documento inteiro",
+          "paginas": [
+            1,
+            99
+          ],
+          "publico": "motorista"
+        }
+      ]
+    },
+    {
+      "arquivo": "CG-04_FAQ_Operacional.pdf",
+      "id": "CG-04",
+      "titulo": "Perguntas Frequentes (FAQ) — Rede ChargeGrid",
+      "tipo": "ficticio_chargegrid",
+      "versao": "1.0",
+      "idioma": "pt-BR",
+      "origem": "Elaborado pela Equipe 03 (FIAP EV Challenge 2026) — documento fictício",
+      "direitos": "Autoria da equipe.",
+      "secoes": [
+        {
+          "nome": "Documento inteiro",
+          "paginas": [
+            1,
+            99
+          ],
+          "publico": "motorista"
+        }
+      ]
+    },
+    {
+      "arquivo": "CG-05_Termos_de_Uso_e_Limites_do_Assistente.pdf",
+      "id": "CG-05",
+      "titulo": "Termos de Uso, Segurança e Limites do Assistente Virtual",
+      "tipo": "ficticio_chargegrid",
+      "versao": "1.0",
+      "idioma": "pt-BR",
+      "origem": "Elaborado pela Equipe 03 (FIAP EV Challenge 2026) — documento fictício",
+      "direitos": "Autoria da equipe.",
+      "secoes": [
+        {
+          "nome": "Documento inteiro",
+          "paginas": [
+            1,
+            99
+          ],
+          "publico": "motorista"
+        }
+      ]
+    }
+  ]
+}

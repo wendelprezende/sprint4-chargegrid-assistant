@@ -15,3 +15,4 @@ pymupdf>=1.24.0
 
 # --- Interface (Sprint 4) ---
 gradio>=5.0.0
+reportlab>=4.0.0   # T2: gera os PDFs fictícios (src/utils/gerar_documentos_ficticios.py)
