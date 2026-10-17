@@ -23,6 +23,10 @@ import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
 
+# O aviso de "sunset" do langchain-community é só ruído: o PyMuPDFLoader (exigido pelo guia)
+# continua funcionando. Silenciamos APENAS essa mensagem.
+warnings.filterwarnings("ignore", message=r".*langchain-community.*sunset.*")
+
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents import Document
 
