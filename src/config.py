@@ -50,6 +50,14 @@ TOP_K = 4
 USAR_PREFIXO_NOMIC = False  # nomic-embed-text recomenda "search_document: "/"search_query: ";
 #                            começa desligado (baseline) e vira uma iteração medida na T5.
 PUBLICOS_MOTORISTA = ("motorista", "geral")  # públicos que podem embasar respostas ao motorista
+
+# --- Geração com RAG (T4) ---
+VERSAO_PROMPT_RAG = "v2"        # arquivo prompts/prompt_rag_<versao>.md (v1 = baseline, v2 = segurança reforçada)
+LIMIAR_DISTANCIA = 0.40         # "porta dura": se o melhor chunk estiver mais longe, o LLM nem é chamado.
+#                                 Valor INICIAL (dentro do escopo: 0,236–0,353; fora: 0,416). Recalibrar na T5.
+NUM_PREDICT_RAG = 800           # o gpt-oss gasta tokens "pensando": 400 pode zerar a resposta
+REASONING_GPT_OSS = "low"       # esforço de raciocínio do gpt-oss (None desliga); só vale para modelos gpt-oss
+MAX_TENTATIVAS_FORMATO = 2      # tentativas de correção quando o JSON do LLM vem inválido
 TEMPERATURE = 0.0  # recomendado pelo guia da Sprint 4 (respostas fundamentadas)
 TOP_P = 0.9
 NUM_PREDICT = 400  # equivalente ao max_tokens

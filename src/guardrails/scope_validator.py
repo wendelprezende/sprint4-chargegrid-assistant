@@ -49,7 +49,8 @@ _PADROES_FINANCEIRO = re.compile(
 
 _PADROES_SEGURANCA_ELETRICA = re.compile(
     r"consertar?\s+(a\s+)?fia[cç][aã]o|mexer\s+no\s+disjuntor|abrir\s+o\s+quadro\s+el[eé]trico|"
-    r"trocar\s+(o\s+)?cabo\s+eu\s+mesmo|desmontar\s+o\s+carregador|reparo\s+el[eé]trico\s+caseiro",
+    r"trocar\s+(o\s+)?cabo\s+eu\s+mesmo|desmontar\s+o\s+carregador|reparo\s+el[eé]trico\s+caseiro|"
+    r"mexer\s+(na|nas|em)\s+(a\s+|as\s+)?fia[cç]|instalar\s+(eu\s+mesmo\s+)?(o\s+meu|meu\s+pr[oó]prio|um|o)\s+(pr[oó]prio\s+)?carregador",
     re.IGNORECASE,
 )
 
@@ -59,7 +60,12 @@ _PADROES_SEGURANCA_ELETRICA = re.compile(
 _PADROES_DOMINIO_EV = re.compile(
     r"recarga|carregar|carregament[oa]|carregando|eletroposto|bateria|kwh|sess[aã]o|pix|cart[aã]o|"
     r"tarifa[cç][aã]o|totem|conector|cabo|chargegrid|goodwe|carro\s+el[eé]trico|"
-    r"ve[ií]culo\s+el[eé]trico|\bev\b|comprovante|pagamento|energia",
+    r"ve[ií]culo\s+el[eé]trico|\bev\b|comprovante|pagamento|energia|"
+    # --- T4: tarifação, horário e suporte também ancoram o domínio (a pergunta "por que o preço agora
+    #     está mais caro?" foi recusada como fora de escopo na Sprint 3, caso hp-03) ---
+    r"pre[cç]o|caro\b|cara\b|barat|tarifa|valor|custa|custo|cobran[cç]a|cobrar|cobrad|desconto|"
+    r"agend|hor[aá]rio|\bponta\b|aplicativo|\bapp\b|suporte|tela|plugue|rfid|qr\s*code|\bled\b|"
+    r"luz\s+(azul|verde|vermelh)|indicador|carregador|kw\b|potência|potencia|finalizar|encerrar",
     re.IGNORECASE,
 )
 
@@ -91,6 +97,17 @@ ORIENTACAO_FORA_DO_DOMINIO = (
 )
 
 
+_SAUDACOES_E_CORTESIAS = re.compile(
+    r"^\s*(oi|ol[aá]|bom\s+dia|boa\s+tarde|boa\s+noite|obrigad[oa]|valeu|tchau)\W*\s*$",
+    re.IGNORECASE,
+)
+
+
+def eh_saudacao(mensagem_usuario: str) -> bool:
+    """True para saudações/cortesias curtas ("oi", "obrigado"), que não precisam de busca na base."""
+    return bool(_SAUDACOES_E_CORTESIAS.match(mensagem_usuario or ""))
+
+
 def validar_escopo(mensagem_usuario: str) -> ResultadoEscopo:
     """
     Classifica a mensagem do usuário quanto ao escopo GoodWe/ChargeGrid.
@@ -117,11 +134,7 @@ def validar_escopo(mensagem_usuario: str) -> ResultadoEscopo:
     # Sem nenhuma âncora de domínio EV e sem bater em nenhuma categoria sensível:
     # tratamos como possivelmente fora do domínio (ex.: "qual a capital da França?").
     # Perguntas muito curtas/ambíguas (ex.: "oi", "obrigado") não devem ser bloqueadas.
-    saudacoes_e_cortesias = re.compile(
-        r"^\s*(oi|ol[aá]|bom\s+dia|boa\s+tarde|boa\s+noite|obrigad[oa]|valeu|tchau)\W*\s*$",
-        re.IGNORECASE,
-    )
-    if saudacoes_e_cortesias.match(texto):
+    if eh_saudacao(texto):
         return ResultadoEscopo(CategoriaForaDeEscopo.dentro_do_escopo, True, None)
 
     return ResultadoEscopo(

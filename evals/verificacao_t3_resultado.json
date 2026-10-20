@@ -134,9 +134,9 @@
     },
     {
       "secao": "3) Segurança do Git (a exposição de chave tem penalidade na entrega)",
-      "status": "AVISO",
-      "descricao": "árvore de trabalho limpa (branch atual: main)",
-      "detalhe": "12 arquivo(s) com alterações não commitadas"
+      "status": "OK",
+      "descricao": "árvore de trabalho limpa (branch atual: feat/t3-ajustes-verificacao)",
+      "detalhe": ""
     },
     {
       "secao": "4) Base de conhecimento",
@@ -232,7 +232,7 @@
       "secao": "7) Ollama real (embedding em http://localhost:11434)",
       "status": "OK",
       "descricao": "embedding gera vetor de 768 dimensões (esperado 768)",
-      "detalhe": "2.07s"
+      "detalhe": "3.89s"
     },
     {
       "secao": "7) Ollama real (embedding em http://localhost:11434)",
@@ -242,21 +242,21 @@
     },
     {
       "secao": "7) Ollama real (embedding em http://localhost:11434)",
-      "status": "FALHA",
+      "status": "OK",
       "descricao": "chat gpt-oss:120b responde",
-      "detalhe": "0.51s -> ''"
+      "detalhe": "0.56s -> 'OK'"
     },
     {
       "secao": "7) Ollama real (embedding em http://localhost:11434)",
       "status": "OK",
       "descricao": "chat gemma4:31b-cloud responde",
-      "detalhe": "0.46s -> 'OK'"
+      "detalhe": "0.55s -> 'OK'"
     },
     {
       "secao": "8) Pipeline RAG REAL (nomic-embed-text)",
       "status": "OK",
       "descricao": "143 chunks vetorizados e gravados (banco temporário)",
-      "detalhe": "25.42 s"
+      "detalhe": "23.5 s"
     },
     {
       "secao": "8) Pipeline RAG REAL (nomic-embed-text)",

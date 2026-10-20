@@ -27,6 +27,18 @@ def contar_tokens_texto(texto: str, encoding_name: str = "cl100k_base") -> int:
     return len(encoding.encode(texto))
 
 
+def estimar_tokens(texto: str) -> tuple[int, str]:
+    """
+    Contagem tolerante a falhas (T4): usa o tiktoken quando disponível; sem rede/encoding,
+    cai numa estimativa por caracteres (~3,6 por token em português). Devolve (tokens, método)
+    para que o relatório diga se o número é medido ou estimado.
+    """
+    try:
+        return contar_tokens_texto(texto), "tiktoken"
+    except Exception:  # noqa: BLE001 — sem rede para baixar o encoding
+        return int(len(texto) / 3.6) + 1, "estimativa_por_caracteres"
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Uso: python -m src.utils.contagem_tokens <caminho_do_arquivo.md>")
