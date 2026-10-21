@@ -63,12 +63,74 @@ def _cabecalhos(texto: str, aceitar_nivel_unico: bool) -> list[tuple[int, str]]:
     return achados
 
 
+MIN_CHARS_BLOCO = 120  # bloco de seção menor que isso (ex.: só o título "2. Como iniciar...") é fundido ao seguinte
+
+
+def _blocos_por_secao(texto: str) -> list[tuple[str | None, str]]:
+    """Quebra o texto da página nos cabeçalhos numerados: [(rótulo_da_seção | None, texto_do_bloco)]."""
+    cabs = _cabecalhos(texto, True)
+    if not cabs:
+        return [(None, texto)]
+    limites = [pos for pos, _ in cabs]
+    blocos: list[tuple[str | None, str]] = []
+    if limites[0] > 0 and texto[: limites[0]].strip():
+        blocos.append((None, texto[: limites[0]].strip()))  # título do documento ou continuação da página anterior
+    for i, (pos, rotulo) in enumerate(cabs):
+        fim = limites[i + 1] if i + 1 < len(limites) else len(texto)
+        blocos.append((rotulo, texto[pos:fim].strip()))
+    # funde blocos minúsculos com o seguinte (o rótulo passa a ser o do bloco mais específico)
+    fundidos: list[tuple[str | None, str]] = []
+    pendente: tuple[str | None, str] | None = None
+    for rotulo, corpo in blocos:
+        if pendente is not None:
+            rotulo, corpo = rotulo or pendente[0], pendente[1] + "\n" + corpo
+            pendente = None
+        if len(corpo) < MIN_CHARS_BLOCO:
+            pendente = (rotulo, corpo)
+        else:
+            fundidos.append((rotulo, corpo))
+    if pendente is not None:
+        if fundidos:
+            fundidos[-1] = (fundidos[-1][0], fundidos[-1][1] + "\n" + pendente[1])
+        else:
+            fundidos.append(pendente)
+    return fundidos
+
+
+def _dividir_por_secao(paginas: list[Document], divisor: RecursiveCharacterTextSplitter) -> list[Document]:
+    """Documentos FICTÍCIOS: um chunk por seção numerada (um assunto por chunk). Os reais seguem por tamanho."""
+    chunks: list[Document] = []
+    ultima: dict[str, str] = {}
+    for pagina in paginas:
+        fonte = pagina.metadata["fonte_id"]
+        if pagina.metadata["tipo"] != "ficticio_chargegrid":
+            chunks.extend(_dividir_por_tamanho([pagina], divisor, ultima))
+            continue
+        ordem = 0
+        for rotulo, corpo in _blocos_por_secao(pagina.page_content):
+            if rotulo:
+                ultima[fonte] = rotulo
+            base = pagina.metadata["titulo"] if pagina.metadata["secao_catalogo"] == "Documento inteiro" else pagina.metadata["secao_catalogo"]
+            partes = [corpo] if len(corpo) <= divisor._chunk_size else divisor.split_text(corpo)
+            for parte in partes:
+                meta = dict(pagina.metadata)
+                meta["secao"] = rotulo or ultima.get(fonte, base)
+                meta["chunk_id"] = f"{fonte}-p{meta['pagina']:02d}-c{ordem:02d}"
+                chunks.append(Document(page_content=parte, metadata=meta))
+                ordem += 1
+    return chunks
+
+
 def dividir_documentos(
     paginas: list[Document],
     chunk_size: int = config.CHUNK_SIZE,
     chunk_overlap: int = config.CHUNK_OVERLAP,
+    por_secao: bool = config.CHUNKING_POR_SECAO,
 ) -> list[Document]:
-    """Divide as páginas em chunks com metadados `secao`, `chunk_id` e `start_index`."""
+    """Divide as páginas em chunks com metadados `secao` e `chunk_id`.
+
+    `por_secao=True` (iteração da T5): documentos fictícios viram um chunk por seção numerada.
+    """
     divisor = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
@@ -76,9 +138,13 @@ def dividir_documentos(
         add_start_index=True,
     )
 
-    chunks: list[Document] = []
-    ultima_secao: dict[str, str] = {}  # seção "em vigor" por documento, entre páginas
+    if por_secao:
+        return _dividir_por_secao(paginas, divisor)
+    return _dividir_por_tamanho(paginas, divisor, {})
 
+
+def _dividir_por_tamanho(paginas: list[Document], divisor: RecursiveCharacterTextSplitter, ultima_secao: dict[str, str]) -> list[Document]:
+    chunks: list[Document] = []
     for pagina in paginas:  # as páginas chegam em ordem de documento e de página
         fonte = pagina.metadata["fonte_id"]
         cabecalhos = _cabecalhos(pagina.page_content, pagina.metadata["tipo"] == "ficticio_chargegrid")

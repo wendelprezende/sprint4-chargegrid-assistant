@@ -45,6 +45,10 @@ _PADROES_JAILBREAK = [
     r"sem\s+filtros?\s+(de\s+seguran[cç]a|[ée]tico)",
     r"desative\s+(suas?\s+)?(regras|restri[cç][oõ]es|guardrails?)",
     r"a\s+partir\s+de\s+agora\s+voc[eê]\s+(vai|deve|ir[aá])",
+    # T5: ataques de "novo papel" sem as frases clássicas (caso jb-02 do eval set)
+    r"a\s+partir\s+de\s+agora\s+voc[eê]\s+([ée]|passa\s+a\s+ser|ser[aá])\b",
+    r"(assistente|voc[eê])[^.?!\n]{0,40}\bsem\s+(nenhuma\s+|qualquer\s+)?(restri[cç][aã]o|restri[cç][oõ]es|filtros?|limites?)\b",
+    r"responder\s+qualquer\s+coisa|qualquer\s+coisa\s+que\s+eu\s+pe[cç]a",
     r"\bdo\s+anything\s+now\b",
     r"\bignore\s+previous\s+instructions?\b",
     r"\bsystem\s*:\s*",  # tentativa de injetar um novo bloco "system:" na mensagem do usuário

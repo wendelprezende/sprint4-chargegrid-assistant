@@ -19,6 +19,7 @@ Regras de indexação (vindas do catálogo):
 from __future__ import annotations
 
 import json
+import re
 import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -59,8 +60,24 @@ def _secao_da_pagina(doc_catalogo: dict, pagina: int) -> dict | None:
     return None
 
 
+# Aviso e rodapé que os PDFs fictícios repetem em TODA página (gerados por gerar_documentos_ficticios.py).
+_AVISO_FICTICIO = re.compile(
+    r"DOCUMENTO FICT[ÍI]CIO\s*[—-]\s*fins acad[êe]micos\s*\(FIAP EV Challenge 2026\)\.\s*"
+    r"N[ãa]o [ée] material oficial da GoodWe\.(\s*Vers[ãa]o\s*[\d.]+\.)?",
+    flags=re.IGNORECASE,
+)
+_RODAPE_PAGINA = re.compile(r"CG-0\d\s*·\s*p[áa]gina\s*\d+", flags=re.IGNORECASE)
+
+
+def limpar_boilerplate_ficticio(texto: str) -> str:
+    """Remove o aviso e o rodapé repetidos: eles não ajudam a busca e diluem o embedding de cada chunk."""
+    texto = _RODAPE_PAGINA.sub("", _AVISO_FICTICIO.sub("", texto))
+    return re.sub(r"\n\s*\n+", "\n", texto).strip()
+
+
 def carregar_documentos(
     pasta: Path = config.PASTA_KB,
+    limpar_boilerplate: bool = config.LIMPAR_BOILERPLATE,
 ) -> tuple[list[Document], RelatorioCarga]:
     """Carrega todas as páginas indexáveis, com metadados do catálogo."""
     catalogo = carregar_catalogo(pasta)
@@ -84,9 +101,12 @@ def carregar_documentos(
                 relatorio.paginas_excluidas += 1
                 continue
 
+            conteudo = pagina_pdf.page_content
+            if limpar_boilerplate and doc_cat["tipo"] == "ficticio_chargegrid":
+                conteudo = limpar_boilerplate_ficticio(conteudo)
             paginas.append(
                 Document(
-                    page_content=pagina_pdf.page_content,
+                    page_content=conteudo,
                     # Somente tipos primitivos: é o que o Chroma aceita em metadados.
                     metadata={
                         "fonte_id": doc_cat["id"],

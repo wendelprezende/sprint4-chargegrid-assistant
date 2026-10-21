@@ -29,7 +29,19 @@ Medido em 17/10/2026 com `nomic-embed-text` local: **5 de 9** consultas com a fo
 top-4 (`evals/iteracao0_baseline_recuperacao.json`). Distância mínima: 0,236–0,353 dentro do escopo e
 0,416 fora do escopo.
 
-## Hipóteses de iteração (a testar na T5, uma por vez, com o mesmo eval set)
+## Iterações da T5 (mesmo eval set, uma mudança por vez; números em `evals/scores_por_iteracao.csv`)
+
+| Iteração | Mudança | Hipótese | Ganho medido |
+|---|---|---|---|
+| it0_baseline | prompt v2, chunk 800/120, k=4, limiar 0,40 | — | *a medir* |
+| it0_prompt_v1 | prompt v1 | v2 resiste mais à injeção (cenários `inj-*` sem defesas) | *a medir* |
+| it1_limpeza | remove aviso/rodapé repetido | menos ruído nos embeddings dos documentos fictícios | *a medir* |
+| it2_secao | chunking por seção | um assunto por chunk melhora hit@k nos casos de cabo/tela preta | *a medir* |
+| it3_prefixo | prefixos do nomic | melhora a separação entre consulta e documento | *a medir* |
+| it4_camadas | 3 fictícios + 2 reais | o manual (78% dos chunks) deixa de espremer a operação | *a medir* |
+| it5_limiar | limiar calibrado | margem maior entre domínio e fora do escopo | *a medir* |
+
+## Hipóteses de iteração (origem das linhas acima)
 
 1. **Limpar o rodapé repetido** dos documentos fictícios antes do chunking.
 2. **Chunking por seção** nos documentos fictícios (um tópico por chunk; rótulo de seção correto).

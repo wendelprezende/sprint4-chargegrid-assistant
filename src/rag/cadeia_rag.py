@@ -43,7 +43,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
 
 from src import config
-from src.guardrails.documentos import analisar_chunk, neutralizar_texto
+from src.guardrails.documentos import AnaliseChunk, analisar_chunk, neutralizar_texto
 from src.guardrails.moderation import MENSAGEM_RECUSA_JAILBREAK, detectar_tentativa_de_manipulacao
 from src.guardrails.saida import saida_suspeita
 from src.guardrails.scope_validator import CategoriaForaDeEscopo, eh_saudacao, validar_escopo
@@ -118,6 +118,8 @@ class ResultadoRAG:
     latencia_total_s: float = 0.0
     latencia_llm_s: float = 0.0
     detalhe: str = ""
+    recuperados_info: list[dict] = field(default_factory=list)  # TODOS os chunks recuperados (T5: métricas de recuperação)
+    contexto_texto: str = ""  # contexto efetivamente enviado ao LLM (T5: o juiz verifica a fidelidade contra ele)
 
     def para_dict(self) -> dict[str, Any]:
         d = self.__dict__.copy()
@@ -169,8 +171,10 @@ class ChargeGridRAG:
         limiar_distancia: float | None = config.LIMIAR_DISTANCIA,
         max_tentativas: int = config.MAX_TENTATIVAS_FORMATO,
         filtrar_saida: bool = True,
+        filtrar_documentos: bool = True,
     ) -> None:
         self.filtrar_saida = filtrar_saida  # False só para MEDIR a suscetibilidade do LLM (evals)
+        self.filtrar_documentos = filtrar_documentos  # idem: desliga o descarte de chunks suspeitos
         self.retriever = retriever
         self.llm = llm
         self.versao_prompt = versao_prompt
@@ -250,16 +254,24 @@ class ChargeGridRAG:
         # 6) injeção indireta: descarta chunks suspeitos
         aprovados, descartados = [], []
         for r in recuperados:
-            analise = analisar_chunk(r.documento.page_content)
+            analise = analisar_chunk(r.documento.page_content) if self.filtrar_documentos else AnaliseChunk(False)
             if analise.suspeito:
                 descartados.append((r.documento.metadata["chunk_id"], analise.motivo or ""))
             else:
                 aprovados.append(r)
         distancia_min = min((r.distancia for r in aprovados), default=None)
+        ids_descartados = {i for i, _ in descartados}
         base = {
             "distancia_min": round(distancia_min, 4) if distancia_min is not None else None,
             "chunks_recuperados": len(recuperados),
             "descartados_injecao": descartados,
+            "recuperados_info": [
+                {"id": r.documento.metadata["chunk_id"], "fonte_id": r.documento.metadata["fonte_id"],
+                 "tipo": r.documento.metadata.get("tipo", ""), "pagina": r.documento.metadata.get("pagina"),
+                 "secao": r.documento.metadata.get("secao", ""), "distancia": round(r.distancia, 4),
+                 "descartado": r.documento.metadata["chunk_id"] in ids_descartados}
+                for r in recuperados
+            ],
         }
 
         # 7) porta de distância
@@ -282,6 +294,7 @@ class ChargeGridRAG:
             "historico": formatar_historico(historico),
             "pergunta": neutralizar_texto(pergunta),
         }
+        base["contexto_texto"] = entrada["contexto"] + "\n" + entrada["dados_sessao"]
         valor_prompt = self._prompt.invoke(entrada)
         tokens, metodo = estimar_tokens(valor_prompt.to_string())
         base.update(tokens_prompt=tokens, metodo_tokens=metodo)

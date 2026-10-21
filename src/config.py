@@ -51,6 +51,12 @@ USAR_PREFIXO_NOMIC = False  # nomic-embed-text recomenda "search_document: "/"se
 #                            começa desligado (baseline) e vira uma iteração medida na T5.
 PUBLICOS_MOTORISTA = ("motorista", "geral")  # públicos que podem embasar respostas ao motorista
 
+# --- Variantes do pipeline (T5): cada uma é uma ITERAÇÃO medida em evals/. Os padrões abaixo são o BASELINE;
+#     depois da avaliação, o padrão passa a ser a combinação vencedora. ---
+LIMPAR_BOILERPLATE = False      # remove o aviso/rodapé repetido dos documentos fictícios antes do chunking
+CHUNKING_POR_SECAO = False      # documentos fictícios: um chunk por seção numerada (em vez de corte por tamanho)
+COTAS_POR_TIPO = None           # ex.: {"ficticio_chargegrid": 3, "real_goodwe": 2} -> busca por camada
+
 # --- Geração com RAG (T4) ---
 VERSAO_PROMPT_RAG = "v2"        # arquivo prompts/prompt_rag_<versao>.md (v1 = baseline, v2 = segurança reforçada)
 LIMIAR_DISTANCIA = 0.40         # "porta dura": se o melhor chunk estiver mais longe, o LLM nem é chamado.
