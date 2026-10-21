@@ -62,17 +62,29 @@ class Retriever:
         publicos: tuple[str, ...] | None = config.PUBLICOS_MOTORISTA,
         tipos: tuple[str, ...] | None = None,
         limiar_distancia: float | None = None,
+        cotas: dict[str, int] | None = None,
     ) -> None:
         self.loja = loja
+        self.cotas = cotas  # ex.: {"ficticio_chargegrid": 3, "real_goodwe": 2}: busca por camada (T5)
         self.k = k
         self.publicos = publicos
         self.tipos = tipos
         self.limiar_distancia = limiar_distancia
 
     def buscar(self, consulta: str) -> list[ResultadoBusca]:
-        pares = self.loja.similarity_search_with_score(
-            consulta, k=self.k, filter=_montar_filtro(self.publicos, self.tipos)
-        )
+        if self.cotas:
+            # busca por camada: reserva vagas para cada tipo de documento (o manual real tem 78% dos chunks e,
+            # sem cota, espreme as respostas da operação do totem). Resultado final ordenado por distância.
+            pares = []
+            for tipo, n in self.cotas.items():
+                pares += self.loja.similarity_search_with_score(
+                    consulta, k=n, filter=_montar_filtro(self.publicos, (tipo,))
+                )
+            pares.sort(key=lambda p: p[1])
+        else:
+            pares = self.loja.similarity_search_with_score(
+                consulta, k=self.k, filter=_montar_filtro(self.publicos, self.tipos)
+            )
         resultados = [ResultadoBusca(doc, float(dist)) for doc, dist in pares]
         if self.limiar_distancia is not None:
             resultados = [r for r in resultados if r.distancia <= self.limiar_distancia]

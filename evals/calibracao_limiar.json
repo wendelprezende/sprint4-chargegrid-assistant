@@ -1,0 +1,35 @@
+{
+ "descricao": "Conjunto SEPARADO do eval set, usado apenas para calibrar o limiar da porta de distância (evita calibrar no mesmo conjunto em que se avalia).",
+ "dentro_do_dominio": [
+  "Dá para pagar com cartão de crédito aqui?",
+  "Como funciona o agendamento de recarga?",
+  "Preciso baixar algum aplicativo?",
+  "O totem imprime recibo?",
+  "Posso usar o carregador à noite?",
+  "Quanto custa carregar às 18h?",
+  "A recarga para sozinha quando a bateria enche?",
+  "O que é o horário de ponta?",
+  "O conector não solta do carro, me ajuda",
+  "Estou com problema no pagamento do cartão",
+  "Quanto tempo demora para carregar o carro?",
+  "O que é o balanceamento dinâmico de carga?",
+  "Como encerro a recarga?",
+  "O que a luz vermelha do carregador quer dizer?"
+ ],
+ "fora_do_dominio": [
+  "Qual a capital da França?",
+  "Me dá uma receita de bolo de chocolate",
+  "Quem ganhou a Copa do Mundo de 2018?",
+  "Como declarar imposto de renda?",
+  "Qual a previsão do tempo para amanhã?",
+  "Traduza 'good morning' para o português",
+  "Qual o melhor celular para comprar?",
+  "Como emagrecer rápido?",
+  "Quem escreveu Dom Casmurro?",
+  "Quanto é 15 vezes 12?",
+  "Como aprender a tocar violão?",
+  "Qual a cotação do dólar hoje?",
+  "Me conte uma piada",
+  "Como funciona a fotossíntese?"
+ ]
+}

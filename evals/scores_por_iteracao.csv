@@ -1,0 +1,20 @@
+iteracao,descricao,comportamento_correto,hit_at_k,mrr,precisao_at_k,citacao_presente,citacao_correta,fidelidade,relevancia,recusa_indevida,resposta_indevida,alucinacao_proibidos,tokens_prompt_medio,latencia_total_media_s,injecao_obediencia_sem_defesas,injecao_obediencia_com_defesas
+it0_sem_rag_so_recuperacao,"ANTES: chatbot das Sprints 1/2 (sem RAG, sem citação)",,0.6364,0.553,0.3523,,,,,,,,,0.0,,
+it0_prompt_v1_so_recuperacao,RAG baseline com o prompt v1,,0.6364,0.553,0.3523,,,,,,,,,0.0,,
+it0_baseline_so_recuperacao,"RAG baseline: chunk 800/120, k=4, limiar 0,40, prompt v2",,0.6364,0.553,0.3523,,,,,,,,,0.0,,
+it1_limpeza_so_recuperacao,+ limpeza do aviso/rodapé repetido,,0.5909,0.5379,0.3182,,,,,,,,,0.0,,
+it2_secao_so_recuperacao,+ chunking por seção (fictícios),,0.8182,0.7235,0.4205,,,,,,,,,0.0,,
+it3_prefixo_so_recuperacao,+ prefixos do nomic,,0.8182,0.7841,0.4091,,,,,,,,,0.0,,
+it4_camadas_so_recuperacao,+ busca por camada (3 fictícios + 2 reais),,1.0,0.8386,0.3545,,,,,,,,,0.0,,
+it5_limiar_so_recuperacao,+ limiar calibrado no conjunto separado,,1.0,0.8386,0.3545,,,,,,,,,0.0,,
+it0_sem_rag,"ANTES: chatbot das Sprints 1/2 (sem RAG, sem citação)",,0.6364,0.553,0.3523,0.0,,0.1918,0.7462,,,0.3333,221.1053,1.1923,,
+it0_prompt_v1,RAG baseline com o prompt v1,0.8372,0.6364,0.553,0.3523,1.0,0.8095,0.8627,0.7728,0.2727,0.0,0.0,2366.7429,2.1231,0.0,0.0
+it0_baseline,"RAG baseline: chunk 800/120, k=4, limiar 0,40, prompt v2",0.8372,0.6364,0.553,0.3523,1.0,0.8,0.9094,0.7778,0.2727,0.0,0.0,2468.0286,1.0979,0.0,0.0
+it1_limpeza,+ limpeza do aviso/rodapé repetido,0.814,0.5909,0.5379,0.3182,1.0,0.8421,0.9167,0.7662,0.3182,0.0,0.0,2444.7714,1.5487,0.0,0.0
+it2_secao,+ chunking por seção (fictícios),0.8837,0.8182,0.7235,0.4205,1.0,0.9091,0.9074,0.7607,0.1364,0.0,0.0,2243.9143,0.8221,0.0,0.0
+it3_prefixo,+ prefixos do nomic,0.907,0.8182,0.7841,0.4091,1.0,0.9565,0.9342,0.74,0.1364,0.0,0.0,2330.1667,0.8012,0.0,0.0
+it4_camadas,+ busca por camada (3 fictícios + 2 reais),0.9535,1.0,0.8386,0.3545,1.0,0.96,0.896,0.741,0.0455,0.0,0.0,2467.4444,1.7853,0.0,0.0
+it5_limiar,+ limiar calibrado no conjunto separado,0.9535,1.0,0.8386,0.3545,1.0,0.96,0.9333,0.7485,0.0455,0.0,0.0,2461.5758,0.7933,0.0,0.0
+it0_sem_rag_ref,ANTES com contexto de referência do it4 (justo: a base é bem recuperada para o juiz),0.0,1.0,0.8386,0.3545,0.0,,0.2202,0.7305,,,0.3333,221.1053,1.4253,,
+it6_sem_limpeza,ABLAÇÃO: it4 SEM a limpeza do rodapé (a limpeza ajudou ou foi neutra?),0.9767,1.0,0.8424,0.3727,1.0,1.0,0.8841,0.7373,0.0455,0.0,0.0,2488.8,0.8476,0.0,0.0
+it7_candidata,"candidata final = it4 (limiar 0,40) com a moderação corrigida (jb-02)",0.9535,1.0,0.8386,0.3545,1.0,0.9583,0.9675,0.7491,0.0909,0.0,0.0,2462.3714,0.8299,0.0,0.0

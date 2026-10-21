@@ -113,7 +113,32 @@ python -m evals.teste_t4 --real --prompt-versao v1       # mesmo teste com o pro
 ```
 
 **Limitações assumidas:** a detecção de injeção em documentos é heurística e uma paráfrase sem verbo de ordem a evade (as camadas de prompt e de saída cobrem o que ela não pega); um filtro de saída por link não impede desinformação em texto puro; um documento legítimo que cite frases de ataque literalmente seria descartado; a porta de distância usa um limiar inicial a recalibrar na T5.
-## Avaliação *(a preencher na T5)*
+## Avaliação (T5)
+
+Fallback documentado do RAGAS (rubrica em `evals/rubrica_avaliacao.md`): **fidelidade** (afirmações suportadas ÷ totais) e
+**relevância** (cosseno entre perguntas geradas a partir da resposta e a pergunta original), com juiz LLM, mais métricas
+determinísticas (comportamento correto, hit@k, MRR, citação, alucinação, injeção, tokens e latência).
+Eval set: `evals/eval_set_rag.json` (43 casos, 5+ categorias; os 16 da Sprint 3 mantêm os ids). Calibração do limiar com
+conjunto **separado**: `evals/calibracao_limiar.json`.
+
+| Iteração | O que muda | Resultado |
+|---|---|---|
+| `it0_sem_rag` | "ANTES": chatbot das Sprints 1/2 (sem busca, sem citação) | *a medir* |
+| `it0_prompt_v1` / `it0_baseline` | RAG com prompt v1 / v2 (chunk 800/120, k=4, limiar 0,40) | *a medir* |
+| `it1_limpeza` | remove o aviso/rodapé repetido dos documentos fictícios | *a medir* |
+| `it2_secao` | chunking por seção (um assunto por chunk) | *a medir* |
+| `it3_prefixo` | prefixos `search_query` / `search_document` do nomic | *a medir* |
+| `it4_camadas` | busca por camada (3 fictícios + 2 reais) | *a medir* |
+| `it5_limiar` | limiar calibrado no conjunto separado | *a medir* |
+
+```bash
+python -m evals.avaliar_rag --validar-gabarito         # gabarito x base (sem LLM)
+python -m evals.avaliar_rag --iteracoes it0_baseline   # uma iteração completa
+python -m evals.avaliar_rag --todas                    # varredura it0 ... it5
+python -m evals.avaliar_rag --comparar                 # tabela antes/depois
+python -m evals.teste_t5                               # 50 checagens da maquinaria (offline)
+```
+Resultados: `evals/resultados/`, `evals/scores_por_iteracao.json` e `.csv`.
 ## Relatórios *(a preencher na T6 e T9)*
 
 ## Segurança de credenciais

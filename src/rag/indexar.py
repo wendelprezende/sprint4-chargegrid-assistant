@@ -34,10 +34,12 @@ def indexar(
     embeddings: Embeddings | None = None,
     usar_prefixo: bool = config.USAR_PREFIXO_NOMIC,
     pasta_chroma: Path = config.PASTA_CHROMA,
+    limpar_boilerplate: bool = config.LIMPAR_BOILERPLATE,
+    por_secao: bool = config.CHUNKING_POR_SECAO,
 ) -> dict:
-    """Executa a indexação e devolve estatísticas (usado também pelos testes)."""
-    paginas, carga = carregar_documentos()
-    chunks = dividir_documentos(paginas, chunk_size, chunk_overlap)
+    """Executa a indexação e devolve estatísticas (usado também pelos testes e pelos evals)."""
+    paginas, carga = carregar_documentos(limpar_boilerplate=limpar_boilerplate)
+    chunks = dividir_documentos(paginas, chunk_size, chunk_overlap, por_secao=por_secao)
     if embeddings is None:
         from src.rag.embeddings import obter_embeddings
 
@@ -55,6 +57,8 @@ def indexar(
         "chunk_size": chunk_size,
         "chunk_overlap": chunk_overlap,
         "usar_prefixo_nomic": usar_prefixo,
+        "limpar_boilerplate": limpar_boilerplate,
+        "chunking_por_secao": por_secao,
         "modelo_embedding": config.MODELO_EMBEDDING,
         "paginas_indexadas": carga.paginas_indexadas,
         "paginas_excluidas": carga.paginas_excluidas,
@@ -92,8 +96,11 @@ def _main() -> None:
     ap.add_argument("--chunk-size", type=int, default=config.CHUNK_SIZE)
     ap.add_argument("--overlap", type=int, default=config.CHUNK_OVERLAP)
     ap.add_argument("--prefixo-nomic", action="store_true", default=config.USAR_PREFIXO_NOMIC)
+    ap.add_argument("--limpar-rodape", action="store_true", default=config.LIMPAR_BOILERPLATE)
+    ap.add_argument("--por-secao", action="store_true", default=config.CHUNKING_POR_SECAO)
     args = ap.parse_args()
-    _imprimir(indexar(args.chunk_size, args.overlap, usar_prefixo=args.prefixo_nomic))
+    _imprimir(indexar(args.chunk_size, args.overlap, usar_prefixo=args.prefixo_nomic,
+                      limpar_boilerplate=args.limpar_rodape, por_secao=args.por_secao))
 
 
 if __name__ == "__main__":
