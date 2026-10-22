@@ -37,7 +37,7 @@ Decisões: (i) o conteúdo de **instalação** do manual é marcado `instalador`
 - **Prompt RAG versionado** (`prompts/prompt_rag_v1.md`, `v2`): responde só com o contexto, cita os ids dos chunks usados e diz "não encontrei" quando a base não cobre.
 - **Saída estruturada (Pydantic v2)**: `encontrou_na_base`, `resposta`, `fontes`, `escalar_suporte`; o código **valida** que toda fonte citada existe entre os chunks enviados e remove as inventadas.
 - **Porta de distância (0,40):** se o melhor chunk está longe demais, o LLM nem é chamado.
-- **Injeção (direta e por documento):** heurística de pergunta e de documento, escape de `< > &`, canário no prompt, filtro de saída de links/e-mails/imagens. Nas execuções do eval set, a obediência do LLM sozinho a documentos envenenados foi 0,000 (4 ataques, 1 execução cada). Para uma taxa com intervalo de confiança: `python -m evals.avaliar_rag --medir-injecao 10 --prompt-versao v2`.
+- **Injeção (direta e por documento):** heurística de pergunta e de documento, escape de `< > &`, canário no prompt, filtro de saída de links/e-mails/imagens. Obediência do LLM sozinho a documentos envenenados, com repetições: prompt v1: obedeceu 0/40 (IC95% -0,00–0,09); prompt v2: obedeceu 0/40 (IC95% -0,00–0,09).
 
 ## 5. Avaliação (fallback documentado do RAGAS)
 
@@ -48,32 +48,35 @@ Método e rubricas em `evals/rubrica_avaliacao.md`: **fidelidade** (afirmações
 | Iteração | O que muda | Comport. | hit@k | MRR | Cit. correta | Fidel. | Relev. | Recusa indevida | Tokens | Lat. (s) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | `it0_sem_rag` | Antes: Sprints 1/2 (sem RAG) | - | 0,636 | 0,553 | - | 0,192 | 0,746 | - | 221 | 1,19 |
+| `it0_sem_rag_ref` | Antes (contexto de referência do it4) | - | 1,000 | 0,839 | - | 0,220 | 0,731 | - | 221 | 1,43 |
 | `it0_prompt_v1` | RAG baseline, prompt v1 | 0,837 | 0,636 | 0,553 | 0,809 | 0,863 | 0,773 | 0,273 | 2367 | 2,12 |
 | `it0_baseline` | RAG baseline (prompt v2) | 0,837 | 0,636 | 0,553 | 0,800 | 0,909 | 0,778 | 0,273 | 2468 | 1,10 |
 | `it1_limpeza` | + limpeza do rodapé | 0,814 | 0,591 | 0,538 | 0,842 | 0,917 | 0,766 | 0,318 | 2445 | 1,55 |
 | `it2_secao` | + chunking por seção | 0,884 | 0,818 | 0,724 | 0,909 | 0,907 | 0,761 | 0,136 | 2244 | 0,82 |
-| `it3_prefixo` | + prefixos do nomic | 0,907 | 0,818 | 0,784 | 0,957 | 0,934 | 0,698 | 0,136 | 2330 | 0,80 |
-| `it4_camadas` | + busca por camada (configuração final) | 0,954 | 1,000 | 0,839 | 0,960 | 0,896 | 0,697 | 0,045 | 2467 | 1,79 |
-| `it5_limiar` | + limiar calibrado (0,334) | 0,954 | 1,000 | 0,839 | 0,960 | 0,933 | 0,702 | 0,045 | 2462 | 0,79 |
+| `it3_prefixo` | + prefixos do nomic | 0,907 | 0,818 | 0,784 | 0,957 | 0,934 | 0,740 | 0,136 | 2330 | 0,80 |
+| `it4_camadas` | + busca por camada (configuração final) | 0,954 | 1,000 | 0,839 | 0,960 | 0,896 | 0,741 | 0,045 | 2467 | 1,79 |
+| `it5_limiar` | + limiar calibrado (0,334) | 0,954 | 1,000 | 0,839 | 0,960 | 0,933 | 0,749 | 0,045 | 2462 | 0,79 |
+| `it6_sem_limpeza` | Ablação: it4 sem a limpeza | 0,977 | 1,000 | 0,842 | 1,000 | 0,884 | 0,737 | 0,045 | 2489 | 0,85 |
+| `it7_candidata` | Candidata final (it4 + moderação corrigida) | 0,954 | 1,000 | 0,839 | 0,958 | 0,968 | 0,749 | 0,091 | 2462 | 0,83 |
 
 ### 5.2 Antes × depois
 
-| Métrica | Sprints 1/2 (versão original) `it0_sem_rag` | Sprint 4 (RAG avaliado) `it4_camadas` |
+| Métrica | Sprints 1/2 (versão original) `it0_sem_rag_ref` | Sprint 4 (RAG avaliado) `it7_candidata` |
 |---|---|---|
-| Fidelidade (0–1): afirmações sustentadas pelo contexto | 0,192 | 0,896 |
-| Relevância da resposta (0–1) | 0,746 | 0,697 |
+| Fidelidade (0–1): afirmações sustentadas pelo contexto | 0,220 | 0,968 |
+| Relevância da resposta (0–1) | 0,731 | 0,749 |
 | Presença de citação de fonte | 0,000 (0%) | 1,000 |
-| Citação correta (fonte aceitável) | - | 0,960 |
+| Citação correta (fonte aceitável) | - | 0,958 |
 | Qualidade do contexto recuperado: hit@k | - (sem busca) | 1,000 |
 | Qualidade do contexto recuperado: MRR | - (sem busca) | 0,839 |
 | Alucinação em fatos proibidos (menor = melhor) | 0,333 | 0,000 |
 | Comportamento correto (recusas, escopo, injeção) | - (sem guardrails) | 0,954 |
-| Tokens de prompt por turno | 221 | 2467 |
-| Latência média por turno (s) | 1,19 | 1,79 |
+| Tokens de prompt por turno | 221 | 2462 |
+| Latência média por turno (s) | 1,43 | 0,83 |
 
 ### 5.3 Leitura honesta dos resultados
 
-- **Recuperação e comportamento (ganhos acima do ruído):** hit@k 0,636 → 1,000; MRR 0,553 → 0,839; citação correta 0,800 → 0,960; comportamento correto 0,837 → 0,954; recusa indevida 0,273 → 0,045 (baseline → final).
+- **Recuperação e comportamento (ganhos acima do ruído):** hit@k 0,636 → 1,000; MRR 0,553 → 0,839; citação correta 0,800 → 0,958; comportamento correto 0,837 → 0,954; recusa indevida 0,273 → 0,091 (baseline → final).
 - **Fidelidade:** o RAG fica na zona de 0,9 contra o chatbot sem RAG; diferenças entre iterações abaixo de ~0,04 estão dentro da variação do LLM e não devem ser lidas como ganho.
 - **Limpeza do rodapé e limiar calibrado:** não trouxeram ganho medido (diferença de 1 caso); foram mantidas/descartadas conforme a tabela.
 - **Custo:** o RAG envia bem mais tokens por turno que o chatbot sem busca; a latência média continua em torno de 1 s.

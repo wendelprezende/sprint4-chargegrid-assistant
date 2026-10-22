@@ -37,13 +37,16 @@ Tabela gerada de `evals/scores_por_iteracao.json` por `python -m src.utils.gerar
 | Iteração | O que muda | Comport. | hit@k | MRR | Cit. correta | Fidel. | Relev. | Recusa indevida | Tokens | Lat. (s) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | `it0_sem_rag` | Antes: Sprints 1/2 (sem RAG) | - | 0,636 | 0,553 | - | 0,192 | 0,746 | - | 221 | 1,19 |
+| `it0_sem_rag_ref` | Antes (contexto de referência do it4) | - | 1,000 | 0,839 | - | 0,220 | 0,731 | - | 221 | 1,43 |
 | `it0_prompt_v1` | RAG baseline, prompt v1 | 0,837 | 0,636 | 0,553 | 0,809 | 0,863 | 0,773 | 0,273 | 2367 | 2,12 |
 | `it0_baseline` | RAG baseline (prompt v2) | 0,837 | 0,636 | 0,553 | 0,800 | 0,909 | 0,778 | 0,273 | 2468 | 1,10 |
 | `it1_limpeza` | + limpeza do rodapé | 0,814 | 0,591 | 0,538 | 0,842 | 0,917 | 0,766 | 0,318 | 2445 | 1,55 |
 | `it2_secao` | + chunking por seção | 0,884 | 0,818 | 0,724 | 0,909 | 0,907 | 0,761 | 0,136 | 2244 | 0,82 |
-| `it3_prefixo` | + prefixos do nomic | 0,907 | 0,818 | 0,784 | 0,957 | 0,934 | 0,698 | 0,136 | 2330 | 0,80 |
-| `it4_camadas` | + busca por camada (configuração final) | 0,954 | 1,000 | 0,839 | 0,960 | 0,896 | 0,697 | 0,045 | 2467 | 1,79 |
-| `it5_limiar` | + limiar calibrado (0,334) | 0,954 | 1,000 | 0,839 | 0,960 | 0,933 | 0,702 | 0,045 | 2462 | 0,79 |
+| `it3_prefixo` | + prefixos do nomic | 0,907 | 0,818 | 0,784 | 0,957 | 0,934 | 0,740 | 0,136 | 2330 | 0,80 |
+| `it4_camadas` | + busca por camada (configuração final) | 0,954 | 1,000 | 0,839 | 0,960 | 0,896 | 0,741 | 0,045 | 2467 | 1,79 |
+| `it5_limiar` | + limiar calibrado (0,334) | 0,954 | 1,000 | 0,839 | 0,960 | 0,933 | 0,749 | 0,045 | 2462 | 0,79 |
+| `it6_sem_limpeza` | Ablação: it4 sem a limpeza | 0,977 | 1,000 | 0,842 | 1,000 | 0,884 | 0,737 | 0,045 | 2489 | 0,85 |
+| `it7_candidata` | Candidata final (it4 + moderação corrigida) | 0,954 | 1,000 | 0,839 | 0,958 | 0,968 | 0,749 | 0,091 | 2462 | 0,83 |
 <!-- ITERACOES:FIM -->
 
 ## Evidências de ganho do prompt (v1 × v2)
@@ -51,7 +54,7 @@ Tabela gerada de `evals/scores_por_iteracao.json` por `python -m src.utils.gerar
 <!-- EVIDENCIAS:INICIO -->
 - **Fidelidade (mesmo eval set):** v1 = 0,863 · v2 = 0,909 (diferença pequena: indício, não prova).
 - **Comportamento correto:** v1 = 0,837 · v2 = 0,837.
-- Nas execuções do eval set, a obediência do LLM sozinho a documentos envenenados foi 0,000 (4 ataques, 1 execução cada). Para uma taxa com intervalo de confiança: `python -m evals.avaliar_rag --medir-injecao 10 --prompt-versao v2`.
+- Obediência do LLM sozinho a documentos envenenados, com repetições: prompt v1: obedeceu 0/40 (IC95% -0,00–0,09); prompt v2: obedeceu 0/40 (IC95% -0,00–0,09).
 <!-- EVIDENCIAS:FIM -->
 
 ## Hipóteses de iteração (origem das linhas acima)
