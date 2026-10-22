@@ -15,6 +15,6 @@ it2_secao,+ chunking por seção (fictícios),0.8837,0.8182,0.7235,0.4205,1.0,0.
 it3_prefixo,+ prefixos do nomic,0.907,0.8182,0.7841,0.4091,1.0,0.9565,0.9342,0.74,0.1364,0.0,0.0,2330.1667,0.8012,0.0,0.0
 it4_camadas,+ busca por camada (3 fictícios + 2 reais),0.9535,1.0,0.8386,0.3545,1.0,0.96,0.896,0.741,0.0455,0.0,0.0,2467.4444,1.7853,0.0,0.0
 it5_limiar,+ limiar calibrado no conjunto separado,0.9535,1.0,0.8386,0.3545,1.0,0.96,0.9333,0.7485,0.0455,0.0,0.0,2461.5758,0.7933,0.0,0.0
-it0_sem_rag_ref,ANTES com contexto de referência do it4 (justo: a base é bem recuperada para o juiz),0.0,1.0,0.8386,0.3545,0.0,,0.2202,0.7305,,,0.3333,221.1053,1.4253,,
+it0_sem_rag_ref,ANTES com contexto de referência do it4 (justo: a base é bem recuperada para o juiz),,1.0,0.8386,0.3545,0.0,,0.2202,0.7305,,,0.3333,221.1053,1.4253,,
 it6_sem_limpeza,ABLAÇÃO: it4 SEM a limpeza do rodapé (a limpeza ajudou ou foi neutra?),0.9767,1.0,0.8424,0.3727,1.0,1.0,0.8841,0.7373,0.0455,0.0,0.0,2488.8,0.8476,0.0,0.0
 it7_candidata,"candidata final = it4 (limiar 0,40) com a moderação corrigida (jb-02)",0.9535,1.0,0.8386,0.3545,1.0,0.9583,0.9675,0.7491,0.0909,0.0,0.0,2462.3714,0.8299,0.0,0.0

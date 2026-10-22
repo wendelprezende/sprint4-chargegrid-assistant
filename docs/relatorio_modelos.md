@@ -24,9 +24,22 @@
 
 ## 3. Resultados
 
-_Ainda não medido. Rode: `python -m evals.comparar_modelos --rodar`._
+| Experimento | Modelo | temperature | top_p | max_tokens | k | Comport. | Fidel. | Relev. | hit@k | Cit. correta | Tokens | Lat. (s) | Erros |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `M1_gptoss_ref` | gpt-oss:120b | 0.0 | 0.9 | 800 | 5 | 0,977 | 0,909 | 0,740 | 1,000 | 0,960 | 2463 | 0,82 | 0 |
+| `M2_gemma4` | gemma4:31b-cloud | 0.0 | 0.9 | 800 | 5 | 0,977 | 0,942 | 0,726 | 1,000 | 0,962 | 2462 | 1,35 | 0 |
+| `M3_gptoss_temp03` | gpt-oss:120b | 0.3 | 0.9 | 800 | 5 | 0,977 | 0,917 | 0,743 | 1,000 | 0,960 | 2462 | 0,86 | 0 |
+| `M4_gptoss_topp1` | gpt-oss:120b | 0.0 | 1.0 | 800 | 5 | 0,977 | 0,917 | 0,744 | 1,000 | 0,960 | 2465 | 0,88 | 0 |
+| `M5_gptoss_topk8` | gpt-oss:120b | 0.0 | 0.9 | 800 | 8 | 1,000 | 0,899 | 0,751 | 1,000 | 1,000 | 2990 | 0,89 | 0 |
+| `M6_gptoss_np300` | gpt-oss:120b | 0.0 | 0.9 | 300 | 5 | 0,977 | 0,917 | 0,741 | 1,000 | 0,960 | 2463 | 0,83 | 0 |
 
+- `M2_gemma4` em relação ao M1: comportamento +0.000, fidelidade +0.032, relevância -0.014, hit@k +0.000; erros de formato/LLM: 0.
+- `M3_gptoss_temp03` em relação ao M1: comportamento +0.000, fidelidade +0.007, relevância +0.003, hit@k +0.000; erros de formato/LLM: 0.
+- `M4_gptoss_topp1` em relação ao M1: comportamento +0.000, fidelidade +0.008, relevância +0.005, hit@k +0.000; erros de formato/LLM: 0.
+- `M5_gptoss_topk8` em relação ao M1: comportamento +0.023, fidelidade -0.011, relevância +0.011, hit@k +0.000; erros de formato/LLM: 0.
+- `M6_gptoss_np300` em relação ao M1: comportamento +0.000, fidelidade +0.008, relevância +0.001, hit@k +0.000; erros de formato/LLM: 0.
 
+**Melhor por comportamento correto e, em empate, fidelidade:** `M5_gptoss_topk8`. Diferenças de fidelidade abaixo de ~0,04 estão dentro da variação do LLM; diferenças de 1 caso valem 0,023 em comportamento.
 
 ## 4. Limitações da comparação
 

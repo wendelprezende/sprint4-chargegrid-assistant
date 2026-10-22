@@ -1,0 +1,290 @@
+{
+ "M1_gptoss_ref": {
+  "experimento": "M1_gptoss_ref",
+  "parametros": {
+   "modelo": "gpt-oss:120b",
+   "temperature": 0.0,
+   "top_p": 0.9,
+   "num_predict": 800,
+   "cotas": {
+    "ficticio_chargegrid": 3,
+    "real_goodwe": 2
+   },
+   "k_total": 5
+  },
+  "geral": {
+   "n_itens": 43,
+   "comportamento_correto": 0.9767,
+   "recusa_indevida": 0.0455,
+   "resposta_indevida": 0.0,
+   "alucinacao_proibidos": 0.0,
+   "hit_at_k": 1.0,
+   "mrr": 0.8386,
+   "precisao_at_k": 0.3545,
+   "citacao_presente": 1.0,
+   "citacao_correta": 0.96,
+   "recall_fatos": 0.9365,
+   "escalar_ok": 1.0,
+   "fidelidade": 0.9095,
+   "n_fidelidade": 21,
+   "relevancia": 0.7397,
+   "n_relevancia": 21,
+   "evasiva": 0.0,
+   "tokens_prompt_medio": 2463.2,
+   "latencia_total_media_s": 0.8217,
+   "latencia_llm_media_s": 0.9177,
+   "injecao_obediencia_sem_defesas": 0.0,
+   "injecao_obediencia_com_defesas": 0.0
+  },
+  "estados": {
+   "respondida": 26,
+   "sem_resposta_na_base": 9,
+   "saudacao": 1,
+   "sem_contexto": 1,
+   "recusa_jailbreak": 3,
+   "recusa_escopo": 3
+  },
+  "erros_formato_ou_llm": 0,
+  "duracao_s": 125.3
+ },
+ "M2_gemma4": {
+  "experimento": "M2_gemma4",
+  "parametros": {
+   "modelo": "gemma4:31b-cloud",
+   "temperature": 0.0,
+   "top_p": 0.9,
+   "num_predict": 800,
+   "cotas": {
+    "ficticio_chargegrid": 3,
+    "real_goodwe": 2
+   },
+   "k_total": 5
+  },
+  "geral": {
+   "n_itens": 43,
+   "comportamento_correto": 0.9767,
+   "recusa_indevida": 0.0455,
+   "resposta_indevida": 0.0,
+   "alucinacao_proibidos": 0.0,
+   "hit_at_k": 1.0,
+   "mrr": 0.8386,
+   "precisao_at_k": 0.3545,
+   "citacao_presente": 1.0,
+   "citacao_correta": 0.9615,
+   "recall_fatos": 0.9524,
+   "escalar_ok": 0.75,
+   "fidelidade": 0.9417,
+   "n_fidelidade": 22,
+   "relevancia": 0.7256,
+   "n_relevancia": 21,
+   "evasiva": 0.0,
+   "tokens_prompt_medio": 2461.5143,
+   "latencia_total_media_s": 1.3494,
+   "latencia_llm_media_s": 1.5631,
+   "injecao_obediencia_sem_defesas": 0.0,
+   "injecao_obediencia_com_defesas": 0.0
+  },
+  "estados": {
+   "respondida": 27,
+   "sem_resposta_na_base": 8,
+   "saudacao": 1,
+   "sem_contexto": 1,
+   "recusa_jailbreak": 3,
+   "recusa_escopo": 3
+  },
+  "erros_formato_ou_llm": 0,
+  "duracao_s": 148.0
+ },
+ "M3_gptoss_temp03": {
+  "experimento": "M3_gptoss_temp03",
+  "parametros": {
+   "modelo": "gpt-oss:120b",
+   "temperature": 0.3,
+   "top_p": 0.9,
+   "num_predict": 800,
+   "cotas": {
+    "ficticio_chargegrid": 3,
+    "real_goodwe": 2
+   },
+   "k_total": 5
+  },
+  "geral": {
+   "n_itens": 43,
+   "comportamento_correto": 0.9767,
+   "recusa_indevida": 0.0455,
+   "resposta_indevida": 0.0,
+   "alucinacao_proibidos": 0.0,
+   "hit_at_k": 1.0,
+   "mrr": 0.8386,
+   "precisao_at_k": 0.3545,
+   "citacao_presente": 1.0,
+   "citacao_correta": 0.96,
+   "recall_fatos": 0.9365,
+   "escalar_ok": 1.0,
+   "fidelidade": 0.9167,
+   "n_fidelidade": 21,
+   "relevancia": 0.7431,
+   "n_relevancia": 21,
+   "evasiva": 0.0,
+   "tokens_prompt_medio": 2462.2,
+   "latencia_total_media_s": 0.8646,
+   "latencia_llm_media_s": 0.9701,
+   "injecao_obediencia_sem_defesas": 0.0,
+   "injecao_obediencia_com_defesas": 0.0
+  },
+  "estados": {
+   "respondida": 26,
+   "sem_resposta_na_base": 9,
+   "saudacao": 1,
+   "sem_contexto": 1,
+   "recusa_jailbreak": 3,
+   "recusa_escopo": 3
+  },
+  "erros_formato_ou_llm": 0,
+  "duracao_s": 119.3
+ },
+ "M4_gptoss_topp1": {
+  "experimento": "M4_gptoss_topp1",
+  "parametros": {
+   "modelo": "gpt-oss:120b",
+   "temperature": 0.0,
+   "top_p": 1.0,
+   "num_predict": 800,
+   "cotas": {
+    "ficticio_chargegrid": 3,
+    "real_goodwe": 2
+   },
+   "k_total": 5
+  },
+  "geral": {
+   "n_itens": 43,
+   "comportamento_correto": 0.9767,
+   "recusa_indevida": 0.0455,
+   "resposta_indevida": 0.0,
+   "alucinacao_proibidos": 0.0,
+   "hit_at_k": 1.0,
+   "mrr": 0.8386,
+   "precisao_at_k": 0.3545,
+   "citacao_presente": 1.0,
+   "citacao_correta": 0.96,
+   "recall_fatos": 0.9524,
+   "escalar_ok": 1.0,
+   "fidelidade": 0.9175,
+   "n_fidelidade": 21,
+   "relevancia": 0.7443,
+   "n_relevancia": 21,
+   "evasiva": 0.0,
+   "tokens_prompt_medio": 2464.8286,
+   "latencia_total_media_s": 0.8813,
+   "latencia_llm_media_s": 0.9904,
+   "injecao_obediencia_sem_defesas": 0.0,
+   "injecao_obediencia_com_defesas": 0.0
+  },
+  "estados": {
+   "respondida": 26,
+   "sem_resposta_na_base": 9,
+   "saudacao": 1,
+   "sem_contexto": 1,
+   "recusa_jailbreak": 3,
+   "recusa_escopo": 3
+  },
+  "erros_formato_ou_llm": 0,
+  "duracao_s": 122.8
+ },
+ "M5_gptoss_topk8": {
+  "experimento": "M5_gptoss_topk8",
+  "parametros": {
+   "modelo": "gpt-oss:120b",
+   "temperature": 0.0,
+   "top_p": 0.9,
+   "num_predict": 800,
+   "cotas": {
+    "ficticio_chargegrid": 5,
+    "real_goodwe": 3
+   },
+   "k_total": 8
+  },
+  "geral": {
+   "n_itens": 43,
+   "comportamento_correto": 1.0,
+   "recusa_indevida": 0.0,
+   "resposta_indevida": 0.0,
+   "alucinacao_proibidos": 0.0,
+   "hit_at_k": 1.0,
+   "mrr": 0.8235,
+   "precisao_at_k": 0.3409,
+   "citacao_presente": 1.0,
+   "citacao_correta": 1.0,
+   "recall_fatos": 0.9242,
+   "escalar_ok": 1.0,
+   "fidelidade": 0.8986,
+   "n_fidelidade": 23,
+   "relevancia": 0.7509,
+   "n_relevancia": 22,
+   "evasiva": 0.0,
+   "tokens_prompt_medio": 2989.6857,
+   "latencia_total_media_s": 0.8877,
+   "latencia_llm_media_s": 0.9973,
+   "injecao_obediencia_sem_defesas": 0.0,
+   "injecao_obediencia_com_defesas": 0.0
+  },
+  "estados": {
+   "respondida": 28,
+   "sem_resposta_na_base": 7,
+   "saudacao": 1,
+   "sem_contexto": 1,
+   "recusa_jailbreak": 3,
+   "recusa_escopo": 3
+  },
+  "erros_formato_ou_llm": 0,
+  "duracao_s": 132.0
+ },
+ "M6_gptoss_np300": {
+  "experimento": "M6_gptoss_np300",
+  "parametros": {
+   "modelo": "gpt-oss:120b",
+   "temperature": 0.0,
+   "top_p": 0.9,
+   "num_predict": 300,
+   "cotas": {
+    "ficticio_chargegrid": 3,
+    "real_goodwe": 2
+   },
+   "k_total": 5
+  },
+  "geral": {
+   "n_itens": 43,
+   "comportamento_correto": 0.9767,
+   "recusa_indevida": 0.0455,
+   "resposta_indevida": 0.0,
+   "alucinacao_proibidos": 0.0,
+   "hit_at_k": 1.0,
+   "mrr": 0.8386,
+   "precisao_at_k": 0.3545,
+   "citacao_presente": 1.0,
+   "citacao_correta": 0.96,
+   "recall_fatos": 0.9365,
+   "escalar_ok": 1.0,
+   "fidelidade": 0.9175,
+   "n_fidelidade": 21,
+   "relevancia": 0.7405,
+   "n_relevancia": 21,
+   "evasiva": 0.0,
+   "tokens_prompt_medio": 2463.1429,
+   "latencia_total_media_s": 0.833,
+   "latencia_llm_media_s": 0.935,
+   "injecao_obediencia_sem_defesas": 0.0,
+   "injecao_obediencia_com_defesas": 0.0
+  },
+  "estados": {
+   "respondida": 26,
+   "sem_resposta_na_base": 9,
+   "saudacao": 1,
+   "sem_contexto": 1,
+   "recusa_jailbreak": 3,
+   "recusa_escopo": 3
+  },
+  "erros_formato_ou_llm": 0,
+  "duracao_s": 127.4
+ }
+}
