@@ -54,7 +54,7 @@
  "agregados": {
   "geral": {
    "n_itens": 43,
-   "comportamento_correto": 0.0,
+   "comportamento_correto": null,
    "recusa_indevida": null,
    "resposta_indevida": null,
    "alucinacao_proibidos": 0.3333,
@@ -101,7 +101,7 @@
    },
    "happy_path": {
     "n_itens": 20,
-    "comportamento_correto": 0.0,
+    "comportamento_correto": null,
     "recusa_indevida": null,
     "resposta_indevida": null,
     "alucinacao_proibidos": 1.0,
@@ -443,7 +443,7 @@
    ],
    "contexto_texto": "<documento id=\"CG-01-p01-c06\" fonte=\"CG-01\" tipo=\"ficticio_chargegrid\" pagina=\"1\" secao=\"5 Agendamento pelo aplicativo\">\n5. Agendamento pelo aplicativo\nPelo aplicativo ChargeGrid é possível agendar a recarga em um horário de menor demanda. Recargas\nagendadas em horário fora de ponta recebem desconto (veja o documento CG-02, seção 3). O\nagendamento ajuda a evitar o horário de ponta, entre 17h e 19h, quando a rede está mais carregada.\n</documento>\n<documento id=\"CG-01-p02-c00\" fonte=\"CG-01\" tipo=\"ficticio_chargegrid\" pagina=\"2\" secao=\"6 Demanda alta e velocidade de recarga\">\n6. Demanda alta e velocidade de recarga\nQuando muitos veículos carregam ao mesmo tempo, o sistema da rede pode reduzir a potência de cada\ncarregador de forma proporcional (balanceamento dinâmico de carga) para evitar sobrecarga. Nesses\nmomentos a recarga pode demorar mais, mas o preço por kWh não muda por causa disso.\n</documento>\n<documento id=\"CG-04-p01-c01\" fonte=\"CG-04\" tipo=\"ficticio_chargegrid\" pagina=\"1\" secao=\"1.2 Qual é a velocidade de recarga?\">\n1.2 Qual é a velocidade de recarga?\nA linha HCA G2 existe em versões de 7 kW (monofásica) e 11 kW e 22 kW (trifásicas), conforme o\ndatasheet. A velocidade real depende do veículo, pois é limitada pelo carregador interno (OBC) do carro.\nO assistente informa apenas a estimativa de tempo restante fornecida pelo sistema.\n</documento>\n<documento id=\"GW-HCAG2-MANUAL-p66-c00\" fonte=\"GW-HCAG2-MANUAL\" tipo=\"real_goodwe\" pagina=\"66\" secao=\"9.5 Solução de problemas\">\n62\n09 Manutenção\nNº\nFalha\nCausa\nSoluções\n8\nTempo limite de \ndesvio\n1. A bateria do EV está \ntotalmente carregada.\n2. A temperatura \nambiente é muito baixa \ne a bateria não pode \nser carregada.\n3. A conexão do \ncarregador está \nanormal.\n1. Verifique se o carregamento da \nbateria foi concluído por meio de \nsoftware.\n2. Inicie o pré-aquecimento do EV \ncerca de cinco minutos antes de \ncarregá-lo quando o ambiente \nestiver muito frio.\n3. Verifique e desconecte o conector \nde carregamento e reconecte-o \ncerca de 15 segundos depois.\n9\nTempo limite de \npreparação\nA comunicação do sinal CP \nnão foi bem-sucedida.\n1. Verifique se o EV está totalmente \ncarregado.\n2. Reconecte o conector de \ncarregamento após desconectá-lo \npor cerca de 15 segundos. Entre \nem contato com o revendedor\n</documento>\n<documento id=\"GW-HCAG2-MANUAL-p08-c01\" fonte=\"GW-HCAG2-MANUAL\" tipo=\"real_goodwe\" pagina=\"8\" secao=\"2.2 Segurança do carregador CA\">\nRisco de alta temperatura. \nNão toque no produto \nem operação para evitar \nqueimaduras.\nNão descarte o carregador \ncomo lixo doméstico. Descarte \no produto de acordo com as leis \ne regulamentações locais ou \nenvie-o de volta ao fabricante.\nMarcação CE.\nMarcação RCM.\nMarca ANATEL do Brasil.\n2.3 Requisitos de pessoal\nAVISO\n• O pessoal que instala ou realiza a manutenção do equipamento deve ser rigorosamente \ntreinado, e aprender sobre as precauções de segurança e as operações corretas.\n• Apenas profissionais qualificados ou pessoal treinado estão autorizados a instalar, operar, \nrealizar manutenção e substituir o equipamento ou peças.\n</documento>\n\nDados da sessão atual:\n\nBateria: 67%\nEnergia consumida: 18.4 kWh\nValor acumulado: R$22,10\nTempo restante: 23 minutos\n",
    "metricas": {
-    "comportamento_ok": false,
+    "comportamento_ok": null,
     "violou_proibidos": true,
     "hit_at_k": null,
     "mrr": null,
@@ -3410,5 +3410,6 @@
    "juiz": {},
    "defesas": "nenhuma"
   }
- ]
+ ],
+ "recalculado": "relevância simétrica (query x query); métricas do 'antes' sem status comparável = None"
 }

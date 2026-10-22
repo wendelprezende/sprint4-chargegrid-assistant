@@ -3763,5 +3763,6 @@
    },
    "juiz": {}
   }
- ]
+ ],
+ "recalculado": "relevância simétrica (query x query); métricas do 'antes' sem status comparável = None"
 }

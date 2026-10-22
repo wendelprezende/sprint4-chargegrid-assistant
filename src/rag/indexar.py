@@ -76,6 +76,22 @@ def indexar(
     return stats
 
 
+def garantir_indice(embeddings: Embeddings, pasta: Path = config.PASTA_CHROMA) -> dict | None:
+    """Reindexa SOMENTE se o índice não existe, está vazio ou foi criado com parâmetros diferentes dos do config
+    (ex.: sem o prefixo do nomic — misturar consulta com prefixo e índice sem prefixo piora a busca)."""
+    esperado = {"chunk_size": config.CHUNK_SIZE, "chunk_overlap": config.CHUNK_OVERLAP, "usar_prefixo_nomic": config.USAR_PREFIXO_NOMIC,
+                "limpar_boilerplate": config.LIMPAR_BOILERPLATE, "chunking_por_secao": config.CHUNKING_POR_SECAO}
+    try:
+        salvo = json.loads((Path(pasta) / "parametros_indexacao.json").read_text(encoding="utf-8"))
+        ok = all(salvo.get(k) == v for k, v in esperado.items()) and salvo.get("chunks_no_banco", 0) > 0
+    except Exception:  # noqa: BLE001
+        ok = False
+    if ok:
+        return None
+    print("Índice ausente ou desatualizado: indexando a base de conhecimento (leva ~30 s)...")
+    return indexar(embeddings=embeddings, pasta_chroma=pasta)
+
+
 def _imprimir(stats: dict) -> None:
     print("\n=== Indexação concluída ===")
     print(f"  chunk_size={stats['chunk_size']}  overlap={stats['chunk_overlap']}  "

@@ -823,7 +823,7 @@
   },
   "geral": {
    "n_itens": 43,
-   "comportamento_correto": 0.0,
+   "comportamento_correto": null,
    "recusa_indevida": null,
    "resposta_indevida": null,
    "alucinacao_proibidos": 0.3333,
