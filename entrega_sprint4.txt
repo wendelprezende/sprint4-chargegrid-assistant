@@ -1,0 +1,23 @@
+FIAP - Prompt and Artificial Intelligence - EV Challenge GoodWe - SPRINT 04
+Turma: 1CCPK
+Projeto: ChargeGrid Assistant (RAG com citacao de fonte) - Equipe 03
+
+INTEGRANTES
+- Arthur Araujo Massarioli      - RM 573308 - Turma 1CCPK
+- Daniel Alejandro Pupo Martinez - RM 573075 - Turma 1CCPK
+- Victor Hugo Lavaqui           - RM 573838 - Turma 1CCPK
+- Wendel Pedro Rezende          - RM 573126 - Turma 1CCPK
+
+REPOSITORIO (publico): https://github.com/wendelprezende/sprint4-chargegrid-assistant
+
+CONTEUDO PRINCIPAL
+- README.md ............................ visao geral, como executar, resultados
+- src/rag/ ............................. loader, chunking, embeddings, vector_store, retriever, prompt_rag, cadeia_rag
+- data/knowledge_base/ ................. base de conhecimento (reais GoodWe + ficticios) e catalogo.json
+- prompts/ ............................. prompt RAG versionado (v1, v2) e versoes_rag.md
+- app/ ................................. interface Gradio (README de execucao em app/README.md)
+- evals/ ............................... eval set, scores por iteracao (JSON/CSV), rubrica e resultados
+- docs/relatorio_evolucao_sprint4.pdf .. relatorio de evolucao (ate 5 paginas, com tabela antes/depois)
+- docs/relatorio_rag.md e docs/relatorio_modelos.md
+
+Observacao: o manual do HCA G2 nao e publicado por restricao de direitos autorais (ver data/knowledge_base/README.md).
