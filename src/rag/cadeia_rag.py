@@ -382,10 +382,13 @@ class ChargeGridRAG:
 def criar_rag(modelo: str = config.MODELO_CHAT_PRINCIPAL, **kwargs: Any) -> ChargeGridRAG:
     """Monta tudo com o índice persistido em chroma_db/ (rode `python -m src.rag.indexar` antes)."""
     from src.rag.embeddings import obter_embeddings
+    from src.rag.indexar import garantir_indice
     from src.rag.retriever import Retriever
     from src.rag.vector_store import abrir_indice
 
-    retriever = Retriever(abrir_indice(obter_embeddings()))
+    embeddings = obter_embeddings()
+    garantir_indice(embeddings)
+    retriever = Retriever(abrir_indice(embeddings), cotas=config.COTAS_POR_TIPO)
     return ChargeGridRAG(retriever, criar_llm(modelo), **kwargs)
 
 
