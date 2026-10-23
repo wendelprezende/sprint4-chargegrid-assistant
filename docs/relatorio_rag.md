@@ -1,6 +1,6 @@
 # Relatório do pipeline RAG — ChargeGrid Assistant (Sprint 4)
 
-> Gerado em 22/10/2026 por `python -m src.utils.gerar_relatorios` a partir de `evals/scores_por_iteracao.json`.
+> Gerado em 23/10/2026 por `python -m src.utils.gerar_relatorios` a partir de `evals/scores_por_iteracao.json`.
 > Equipe 03 · FIAP · Prompt and Artificial Intelligence · Turma 1CCPK.
 
 ## 1. Visão geral
@@ -12,6 +12,8 @@ pergunta → guardrails (jailbreak, escopo) → busca (nomic-embed-text + Chroma
 ```
 
 ## 2. Base de conhecimento
+
+**Escopo.** O assistente atende o **motorista de veículo elétrico em eletropostos comerciais** da rede ChargeGrid (Problema 3 do estudo: experiência do usuário comprometida). O cenário condominial (EV ChargeOps) e os regimentos condominiais de carregamento compartilhado **ficaram fora da base** por decisão de escopo da equipe, mantendo a persona e o contexto comercial definidos na Sprint 1; perguntas sobre esse assunto caem na recusa fora do contexto.
 
 Sete documentos, em duas camadas catalogadas em `data/knowledge_base/catalogo.json` (tipo, público, origem, faixas de página):
 
@@ -73,6 +75,8 @@ Método e rubricas em `evals/rubrica_avaliacao.md`: **fidelidade** (afirmações
 | Comportamento correto (recusas, escopo, injeção) | - (sem guardrails) | 0,954 |
 | Tokens de prompt por turno | 221 | 2462 |
 | Latência média por turno (s) | 1,43 | 0,83 |
+
+
 
 ### 5.3 Leitura honesta dos resultados
 

@@ -69,6 +69,29 @@ def final_e_antes(sc: dict) -> tuple[str | None, str | None]:
     return final, antes
 
 
+ESCOPO = ("**Escopo.** O assistente atende o **motorista de veículo elétrico em eletropostos comerciais** da rede ChargeGrid "
+          "(Problema 3 do estudo: experiência do usuário comprometida). O cenário condominial (EV ChargeOps) e os regimentos condominiais de "
+          "carregamento compartilhado **ficaram fora da base** por decisão de escopo da equipe, mantendo a persona e o contexto comercial definidos na "
+          "Sprint 1; perguntas sobre esse assunto caem na recusa fora do contexto.")
+
+
+def relevancia_pendente() -> list[str]:
+    """Iterações com prefixo do nomic cujo resultado AINDA tem a relevância assimétrica (sem `--recalcular`)."""
+    pend = []
+    for nome, d in scores().items():
+        if (d.get("configuracao") or {}).get("prefixo"):
+            r = _json(EVALS / "resultados" / f"{nome}.json")
+            if r is not None and not r.get("recalculado"):
+                pend.append(nome)
+    return pend
+
+
+def nota_relevancia() -> str:
+    pend = relevancia_pendente()
+    return ("> **Atenção:** a relevância das iterações com prefixo do nomic (" + ", ".join(pend) + ") ainda não foi recalculada com a correção de "
+            "simetria (`python -m evals.avaliar_rag --recalcular`); a queda aparente de relevância pode ser **artefato de medição**.") if pend else ""
+
+
 def injecao() -> dict:
     out = {}
     for v in ("v1", "v2"):
@@ -210,6 +233,8 @@ pergunta → guardrails (jailbreak, escopo) → busca (nomic-embed-text + Chroma
 
 ## 2. Base de conhecimento
 
+{ESCOPO}
+
 Sete documentos, em duas camadas catalogadas em `data/knowledge_base/catalogo.json` (tipo, público, origem, faixas de página):
 
 - **Reais (GoodWe):** manual do usuário HCA G2 (70 páginas) e datasheet — hardware, LED, partida, falhas.
@@ -247,6 +272,8 @@ Método e rubricas em `evals/rubrica_avaliacao.md`: **fidelidade** (afirmações
 ### 5.2 Antes × depois
 
 {tabela_antes_depois_md(sc)}
+
+{nota_relevancia()}
 
 ### 5.3 Leitura honesta dos resultados
 
@@ -347,7 +374,13 @@ def _substituir_bloco(arquivo: Path, inicio: str, fim: str, conteudo: str) -> bo
 def atualizar_readme_e_versoes() -> list[str]:
     sc = scores()
     feitos = []
-    bloco = f"### Resultados medidos (iterações)\n\n{tabela_iteracoes_md(sc)}\n\n### Antes × depois\n\n{tabela_antes_depois_md(sc)}\n\nDetalhes: `docs/relatorio_rag.md`, `docs/relatorio_modelos.md` e `docs/relatorio_evolucao_sprint4.pdf`."
+    v0 = RAIZ / "prompts" / "versoes_rag.md"
+    if v0.exists():  # remove a linha-modelo "v3 | a definir" que sobrou da T5
+        txt = v0.read_text(encoding="utf-8")
+        limpo = re.sub(r"^\| v3 \|.*\n", "", txt, flags=re.M)
+        if limpo != txt:
+            v0.write_text(limpo, encoding="utf-8")
+    bloco = f"{ESCOPO}\n\n### Resultados medidos (iterações)\n\n{tabela_iteracoes_md(sc)}\n\n### Antes × depois\n\n{tabela_antes_depois_md(sc)}\n\nDetalhes: `docs/relatorio_rag.md`, `docs/relatorio_modelos.md` e `docs/relatorio_evolucao_sprint4.pdf`."
     if _substituir_bloco(RAIZ / "README.md", "<!-- RESULTADOS:INICIO -->", "<!-- RESULTADOS:FIM -->", bloco):
         feitos.append("README.md")
     v = RAIZ / "prompts" / "versoes_rag.md"
@@ -403,6 +436,7 @@ def gerar_pdf() -> Path:
            "avaliação por iteração com juiz tipo RAGAS, interface Gradio e comparação de modelos."])
 
     titulo("2. Pipeline RAG: decisões e trade-offs")
+    para(esc(ESCOPO).replace("**", ""))
     itens(["<b>Base:</b> manual e datasheet reais do HCA G2 + 5 documentos fictícios da operação do totem (CG-01 a CG-05), catalogados com tipo e público; conteúdo de instalação nunca chega ao motorista; o PDF do manual não é publicado (direitos autorais).",
            "<b>Chunking:</b> RecursiveCharacterTextSplitter 800/120 (15%); por página nos reais (citação com página exata) e <b>por seção</b> nos fictícios (um assunto por chunk).",
            "<b>Embeddings:</b> nomic-embed-text <b>local</b> (a nuvem não oferece embeddings na nossa conta) com prefixos search_query/search_document; ChromaDB persistente, cosseno.",
@@ -413,6 +447,8 @@ def gerar_pdf() -> Path:
     linhas = linhas_antes_depois(sc)
     if linhas:
         h.append(tabela([["Métrica", f"Sprints 1/2 (versão original) [{antes}]", f"Sprint 4 (RAG avaliado) [{final}]"]] + [list(x) for x in linhas], [8.2, 4.7, 4.5]))
+        if relevancia_pendente():
+            para("<b>Atenção:</b> " + esc(nota_relevancia().replace("> **Atenção:** ", "").replace("`", "")))
         para("<i>O 'antes' mede o chatbot das Sprints 1/2 contra os mesmos documentos como contexto de referência; métricas sem sentido para ele (recusas, busca) aparecem como '-'.</i>")
     else:
         para("Rode <b>python -m evals.avaliar_rag --todas</b> e <b>python -m src.utils.gerar_relatorios</b> para preencher esta tabela.")
@@ -446,6 +482,9 @@ def main() -> None:
         print(f"  gerado: {nome}")
     for arq in atualizar_readme_e_versoes():
         print(f"  atualizado: {arq}")
+    if relevancia_pendente():
+        print("  ⚠ ATENÇÃO: rode antes `python -m evals.avaliar_rag --recalcular` — a relevância de " + ", ".join(relevancia_pendente()) +
+              " ainda tem a medição assimétrica e os relatórios mostrariam uma queda que é artefato.")
     try:
         import subprocess
 

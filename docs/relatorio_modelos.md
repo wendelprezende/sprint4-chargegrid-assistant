@@ -1,6 +1,6 @@
 # Relatório de modelos e parâmetros (Sprint 4)
 
-> Gerado em 22/10/2026 por `python -m src.utils.gerar_relatorios`. Mesmo eval set (43 casos), mesma recuperação
+> Gerado em 23/10/2026 por `python -m src.utils.gerar_relatorios`. Mesmo eval set (43 casos), mesma recuperação
 > (configuração final) e o **mesmo juiz** (gpt-oss:120b) em todos os experimentos; só o modelo gerador ou um parâmetro muda por vez.
 
 ## 1. Modelos
