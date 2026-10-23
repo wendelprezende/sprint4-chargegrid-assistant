@@ -49,8 +49,11 @@ def main() -> int:
               and any((d["geral"].get(k) or 0) > (base.get(k) or 0) + 0.04 for k in ("hit_at_k", "mrr", "comportamento_correto", "citacao_correta"))]
     ok(len(ganhos) >= 2, f"pelo menos 2 iterações com ganho de score sobre o baseline ({len(ganhos)}: {', '.join(ganhos) or '-'})", "rode python -m evals.avaliar_rag --todas")
     ok("it0_sem_rag" in sc or "it0_sem_rag_ref" in sc, "coluna 'antes' (Sprints 1/2) medida no mesmo eval set")
-    ok((RAIZ / "evals/resultados/modelos").exists() or (RAIZ / "evals/modelos_resultados.json").exists(), "comparação de 2+ modelos medida (relatorio_modelos.md)", "rode python -m evals.comparar_modelos --rodar", aviso=True)
     rel = (RAIZ / "docs/relatorio_modelos.md").read_text(encoding="utf-8") if (RAIZ / "docs/relatorio_modelos.md").exists() else ""
+    mm = json.loads((RAIZ / "evals/modelos_resultados.json").read_text(encoding="utf-8")) if (RAIZ / "evals/modelos_resultados.json").exists() else {}
+    modelos_medidos = {d["parametros"]["modelo"] for d in mm.values()}
+    ok(len(modelos_medidos) >= 2 and "Ainda não medido" not in rel, f"comparação de 2+ modelos MEDIDA e no relatorio_modelos.md (modelos: {', '.join(sorted(modelos_medidos)) or 'nenhum'})",
+       "OBRIGATÓRIO (guia §6): rode python -m evals.comparar_modelos --rodar --experimentos M1_gptoss_ref M2_gemma4 e depois python -m src.utils.gerar_relatorios")
     ok(all(t in rel for t in ("temperature", "top_p", "max_tokens")) and "k" in rel, "relatorio_modelos.md documenta temperature, top_p, max_tokens e k")
     pdf = RAIZ / "docs/relatorio_evolucao_sprint4.pdf"
     if pdf.exists():
@@ -60,7 +63,11 @@ def main() -> int:
         except Exception:  # noqa: BLE001
             ok(False, "contagem de páginas do PDF", "pdfinfo indisponível: abra o PDF e confira que tem no máximo 5 páginas", aviso=True)
     equipe = (RAIZ / "docs/equipe.json").read_text(encoding="utf-8") if (RAIZ / "docs/equipe.json").exists() else ""
-    ok("PREENCHER" not in equipe, "equipe e divisão de trabalho preenchidas em docs/equipe.json (regere os relatórios depois)", "edite docs/equipe.json", aviso=True)
+    ok("PREENCHER" not in equipe, "equipe e divisão de trabalho preenchidas em docs/equipe.json (OBRIGATÓRIO no relatório de evolução, guia §8)", "edite docs/equipe.json e rode python -m src.utils.gerar_relatorios")
+    pend = [n for n, d in sc.items() if (d.get("configuracao") or {}).get("prefixo")
+            and (RAIZ / f"evals/resultados/{n}.json").exists()
+            and not json.loads((RAIZ / f"evals/resultados/{n}.json").read_text(encoding="utf-8")).get("recalculado")]
+    ok(not pend, "relevância das iterações com prefixo recalculada (sem artefato de medição)", "rode python -m evals.avaliar_rag --recalcular e depois gerar_relatorios", aviso=True)
     txt = (RAIZ / "entrega_sprint4.txt").read_text(encoding="utf-8") if (RAIZ / "entrega_sprint4.txt").exists() else ""
     ok(all(rm in txt for rm in ("573308", "573075", "573838", "573126")) and "1CCPK" in txt and "github.com" in txt, "entrega_sprint4.txt traz nome, RM, turma e link do repositório")
 
@@ -78,6 +85,9 @@ def main() -> int:
             ok(not hist, "a sua chave NÃO aparece em nenhum commit do histórico", "REVOGUE a chave em ollama.com/settings/keys")
         except RuntimeError:
             ok(True, "busca da chave no histórico (sem chave no .env: nada a procurar)")
+        autores = [l for l in subprocess.run(["git", "shortlog", "-sne", "--all"], cwd=RAIZ, capture_output=True, text=True).stdout.splitlines() if l.strip()]
+        ok(len(autores) >= 4, f"commits de {len(autores)} autor(es) no histórico (o guia pede commits regulares de CADA integrante)",
+           "risco assumido pela equipe: só os commits do Wendel", aviso=True)
         sujo = [l for l in subprocess.run(["git", "status", "--porcelain"], cwd=RAIZ, capture_output=True, text=True).stdout.splitlines()]
         ok(not sujo, f"tudo commitado ({len(sujo)} alteração(ões) pendente(s))", "faça commit e push antes de entregar", aviso=True)
     except FileNotFoundError:

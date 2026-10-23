@@ -76,6 +76,8 @@ canário no prompt, fonte citada precisa existir entre os chunks enviados. Saíd
 ## Resultados
 
 <!-- RESULTADOS:INICIO -->
+**Escopo.** O assistente atende o **motorista de veículo elétrico em eletropostos comerciais** da rede ChargeGrid (Problema 3 do estudo: experiência do usuário comprometida). O cenário condominial (EV ChargeOps) e os regimentos condominiais de carregamento compartilhado **ficaram fora da base** por decisão de escopo da equipe, mantendo a persona e o contexto comercial definidos na Sprint 1; perguntas sobre esse assunto caem na recusa fora do contexto.
+
 ### Resultados medidos (iterações)
 
 | Iteração | O que muda | Comport. | hit@k | MRR | Cit. correta | Fidel. | Relev. | Recusa indevida | Tokens | Lat. (s) |

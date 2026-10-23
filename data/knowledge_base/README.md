@@ -37,3 +37,9 @@ python -m src.utils.gerar_documentos_ficticios
 ```
 
 Se alterar valores (ex.: tarifas), **revise o gabarito do eval set** para manter a coerência.
+
+## Escopo (decisão da equipe)
+
+A base atende o **motorista de veículo elétrico em eletropostos comerciais** (rede ChargeGrid), a persona definida na Sprint 1.
+O cenário condominial (EV ChargeOps) e os regimentos condominiais de carregamento compartilhado **não** fazem parte da base; perguntas
+sobre esse assunto caem na recusa fora do contexto.
